@@ -1,4 +1,4 @@
-import ICategory from "../interfaces/category/ICategory";
+import ICategory from "../../interfaces/category/ICategory";
 
 export default class Category implements ICategory {
   public id: number;
@@ -9,15 +9,18 @@ export default class Category implements ICategory {
   public dateCreated: number | null;
   public lastUpdated: number | null;
 
-  constructor({
-    id,
-    name,
-    color,
-    parentCategoryId,
-    userId,
-    dateCreated,
-    lastUpdated,
-  }: ICategory) {
+  constructor(
+    {
+      id,
+      name,
+      color,
+      parentCategoryId,
+      userId,
+      dateCreated,
+      lastUpdated,
+    }: ICategory,
+    subcategories: Category[] = []
+  ) {
     this.id = id;
     this.name = name;
     this.color = color;

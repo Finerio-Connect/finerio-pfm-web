@@ -14,9 +14,14 @@ const cat = new Category(fc);
 const newcat = new CategoryObject("Gastos Diarios", "#FF0000", null, userId);
 const catupd = new CategoryObject("Vicios", "#0000FF", null);
 
+cat
+  .list(userId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+
 /*
 cat
-  .getAll(userId)
+  .listWithSubcategories(userId)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
 */
