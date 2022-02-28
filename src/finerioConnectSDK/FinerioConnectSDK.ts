@@ -16,10 +16,48 @@ export default class FinerioConnectSDK {
   }
 
   public doGet(uri: string, success: (response: any) => any): Promise<any> {
-    const url = `${this._serverUrl}/${uri}`;
+    const url = `${this._serverUrl}${uri}`;
     return new Promise<any>((resolve, reject) => {
       axios
         .get(url, { headers: this._headers })
+        .then((response) => resolve(success(response.data)))
+        .catch((error) => this.processErrors(error, reject));
+    });
+  }
+
+  public doPost(
+    uri: string,
+    body: any,
+    success: (response: any) => any
+  ): Promise<any> {
+    const url = `${this._serverUrl}${uri}`;
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .post(url, body, { headers: this._headers })
+        .then((response) => resolve(success(response.data)))
+        .catch((error) => this.processErrors(error, reject));
+    });
+  }
+
+  public doPut(
+    uri: string,
+    body: any,
+    success: (response: any) => any
+  ): Promise<any> {
+    const url = `${this._serverUrl}${uri}`;
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .put(url, body, { headers: this._headers })
+        .then((response) => resolve(success(response.data)))
+        .catch((error) => this.processErrors(error, reject));
+    });
+  }
+
+  public doDelete(uri: string, success: (response: any) => any): Promise<any> {
+    const url = `${this._serverUrl}${uri}`;
+    return new Promise<any>((resolve, reject) => {
+      axios
+        .delete(url, { headers: this._headers })
         .then((response) => resolve(success(response.data)))
         .catch((error) => this.processErrors(error, reject));
     });
@@ -29,7 +67,7 @@ export default class FinerioConnectSDK {
     error: AxiosError,
     reject: { (reason?: any): void; (arg0: AxiosError<any, any>): void }
   ) {
-    if (error.response && error.response.status === 400)
+    if (error.response && error.response.data)
       reject(this.createErrorBadRequest(error.response?.data));
     else if (error.response && error.response.status)
       reject(this.createErrorResObject(error));

@@ -1,11 +1,13 @@
+import ICategory from "../interfaces/category/ICategory";
+
 export default class Category implements ICategory {
   public id: number;
   public name: string;
   public color: string;
-  public parentCategoryId: number;
-  public userId: number;
-  public dateCreated: number;
-  public lastUpdated: number;
+  public parentCategoryId: number | null;
+  public userId: number | null;
+  public dateCreated: number | null;
+  public lastUpdated: number | null;
 
   constructor({
     id,
