@@ -1,4 +1,4 @@
-import Category from "./category";
+import Category, { CategoryObject } from "./category";
 import FinerioConnectSDK from "./finerioConnectSDK";
 
-export { FinerioConnectSDK, Category };
+export { FinerioConnectSDK, Category, CategoryObject };
