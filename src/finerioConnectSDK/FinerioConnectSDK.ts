@@ -1,8 +1,14 @@
 import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from "axios";
 import Error from "../error";
-import { SERVER_URL, CATEGORY_TYPE, TRANSACTION_TYPE } from "../constants";
+import {
+  SERVER_URL,
+  CATEGORY_TYPE,
+  TRANSACTION_TYPE,
+  BUDGET_TYPE,
+} from "../constants";
 import { IErrorResponse } from "../interfaces";
-import Category from "../category/category";
+import Categories from "../categories/Categories";
+import Budgets from "../budgets";
 
 export default class FinerioConnectSDK {
   private _includedClasses: string[];
@@ -23,7 +29,9 @@ export default class FinerioConnectSDK {
       return this._includedClasses.reduce((acc, current) => {
         switch (current) {
           case CATEGORY_TYPE:
-            return { ...acc, Categories: new Category(this) };
+            return { ...acc, Categories: new Categories(this) };
+          case BUDGET_TYPE:
+            return { ...acc, Categories: new Budgets(this) };
           case TRANSACTION_TYPE:
           default:
             return acc;
@@ -31,7 +39,8 @@ export default class FinerioConnectSDK {
       }, {});
     }
     return {
-      Categories: new Category(this),
+      Categories: new Categories(this),
+      Budgets: new Budgets(this),
     };
   }
 

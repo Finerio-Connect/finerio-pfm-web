@@ -2,7 +2,7 @@ import { ICategory } from "../../interfaces";
 import Category from "./Category";
 
 export default class ParentCategory extends Category {
-  public subcategories: Category[];
+  private _subcategories: Category[];
 
   constructor(
     {
@@ -25,6 +25,14 @@ export default class ParentCategory extends Category {
       dateCreated,
       lastUpdated,
     });
-    this.subcategories = subcategories;
+    this._subcategories = subcategories;
+  }
+
+  public get subcategories(): Category[] {
+    return this._subcategories;
+  }
+
+  public set subcategories(_subcategories: Category[]) {
+    this._subcategories = _subcategories;
   }
 }
