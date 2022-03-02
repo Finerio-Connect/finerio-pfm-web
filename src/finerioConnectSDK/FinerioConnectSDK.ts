@@ -3,6 +3,12 @@ import Error from "../error";
 import { SERVER_URL, CATEGORY_TYPE, TRANSACTION_TYPE } from "../constants";
 import { IErrorResponse } from "../interfaces";
 import Category from "../category/category";
+import Transactions from "../transaction/Transactions";
+
+interface IClassesDictionary {
+  Categories?: Category;
+  Transactions?: Transactions;
+}
 
 export default class FinerioConnectSDK {
   private _includedClasses: string[];
@@ -16,7 +22,7 @@ export default class FinerioConnectSDK {
     this._headers = {};
   }
 
-  public connect(apiKey: string) {
+  public connect(apiKey: string): IClassesDictionary {
     this._apiKey = apiKey;
     this._headers = { ...this._headers, "Api-Key": apiKey };
     if (this._includedClasses.length) {
@@ -25,6 +31,7 @@ export default class FinerioConnectSDK {
           case CATEGORY_TYPE:
             return { ...acc, Categories: new Category(this) };
           case TRANSACTION_TYPE:
+            return { ...acc, Transactions: new Transactions(this) };
           default:
             return acc;
         }
@@ -32,6 +39,7 @@ export default class FinerioConnectSDK {
     }
     return {
       Categories: new Category(this),
+      Transactions: new Transactions(this),
     };
   }
 
