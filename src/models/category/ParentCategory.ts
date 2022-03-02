@@ -1,4 +1,4 @@
-import ICategory from "../../interfaces/category/ICategory";
+import { ICategory } from "../../interfaces";
 import Category from "./Category";
 
 export default class ParentCategory extends Category {
