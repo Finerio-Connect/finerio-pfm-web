@@ -1,9 +1,9 @@
 import FinerioConnectSDK from "../finerioConnectSDK";
 import { ICategory, ICategoriesRes } from "../interfaces";
-import { Category as CategoryModel, ParentCategory } from "../models";
-import CategoryObject from "./categoryObject";
+import { Category, ParentCategory } from "../models";
+import { CategoryPayload } from "../payloads";
 
-export default class Category {
+export default class Categories {
   path: string = "/b07db4dc65bda086ae37ffeb8e03a126b18ffa6f";
 
   constructor(public fcSdk: FinerioConnectSDK) {}
@@ -14,28 +14,36 @@ export default class Category {
     return this.fcSdk.doGet(uri, this.processGetResponse);
   }
 
-  private processGetResponse(response: ICategory): CategoryModel {
-    return new CategoryModel(response);
+  private processGetResponse(response: ICategory): Category {
+    return new Category(response);
   }
 
-  update(id: number, updateObject: CategoryObject): Promise<ICategory> {
+  update(id: number, updateObject: CategoryPayload): Promise<ICategory> {
     const uri = `${this.path}/${id}`;
 
-    return this.fcSdk.doPut(uri, updateObject, this.processUpdateResponse);
+    return this.fcSdk.doPut(
+      uri,
+      updateObject.plainObject,
+      this.processUpdateResponse
+    );
   }
 
-  private processUpdateResponse(response: ICategory): CategoryModel {
-    return new CategoryModel(response);
+  private processUpdateResponse(response: ICategory): Category {
+    return new Category(response);
   }
 
-  create(createCategory: CategoryObject): Promise<ICategory> {
+  create(createCategory: CategoryPayload): Promise<ICategory> {
     const uri = `${this.path}`;
 
-    return this.fcSdk.doPost(uri, createCategory, this.processCreateResponse);
+    return this.fcSdk.doPost(
+      uri,
+      createCategory.plainObject,
+      this.processCreateResponse
+    );
   }
 
-  private processCreateResponse(response: ICategory): CategoryModel {
-    return new CategoryModel(response);
+  private processCreateResponse(response: ICategory): Category {
+    return new Category(response);
   }
 
   delete(id: number): Promise<ICategory> {
@@ -55,10 +63,10 @@ export default class Category {
     return this.fcSdk.doGet(uri, this.processlistResponse);
   }
 
-  private processlistResponse(response: ICategoriesRes): CategoryModel[] {
-    let categories: CategoryModel[] = [];
+  private processlistResponse(response: ICategoriesRes): Category[] {
+    let categories: Category[] = [];
     if (response.data)
-      categories = response.data.reverse().map((cat) => new CategoryModel(cat));
+      categories = response.data.reverse().map((cat) => new Category(cat));
 
     return categories;
   }
@@ -86,7 +94,7 @@ export default class Category {
       categories.forEach((parcat) => {
         parcat.subcategories = catsOrd
           .filter((rescat) => rescat.parentCategoryId === parcat.id)
-          .map((cat) => new CategoryModel(cat));
+          .map((cat) => new Category(cat));
       });
     }
     return categories;
