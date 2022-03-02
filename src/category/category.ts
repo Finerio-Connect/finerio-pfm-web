@@ -1,8 +1,6 @@
 import FinerioConnectSDK from "../finerioConnectSDK";
-import { ICategoriesRes } from "../interfaces/category/ICategoriesRes";
-import ICategory from "../interfaces/category/ICategory";
-import CategoryModel from "../models/category/Category";
-import ParentCategory from "../models/category/ParentCategory";
+import { ICategory, ICategoriesRes } from "../interfaces";
+import { Category as CategoryModel, ParentCategory } from "../models";
 import CategoryObject from "./categoryObject";
 
 export default class Category {

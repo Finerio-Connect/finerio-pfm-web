@@ -1,6 +1,6 @@
 import ICategory from "./ICategory";
 
-export interface ICategoriesRes {
+export default interface ICategoriesRes {
   data: ICategory[];
   nextCursor: number | null;
 }

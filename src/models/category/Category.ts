@@ -1,4 +1,4 @@
-import ICategory from "../../interfaces/category/ICategory";
+import { ICategory } from "../../interfaces";
 
 export default class Category implements ICategory {
   public id: number;

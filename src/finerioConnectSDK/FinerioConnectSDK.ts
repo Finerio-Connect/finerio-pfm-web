@@ -1,10 +1,38 @@
 import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from "axios";
 import Error from "../error";
+import { SERVER_URL, CATEGORY_TYPE, TRANSACTION_TYPE } from "../constants";
+import { IErrorResponse } from "../interfaces";
+import Category from "../category/category";
 
 export default class FinerioConnectSDK {
+  private _includedClasses: string[];
+  private _apiKey: string;
+  private _serverUrl: string;
   private _headers: AxiosRequestHeaders;
-  constructor(private _serverUrl: string, private _apiKey: string) {
-    this._headers = { "Api-Key": this.apiKey };
+  constructor(includes?: string[]) {
+    this._includedClasses = includes || [];
+    this._apiKey = "";
+    this._serverUrl = SERVER_URL;
+    this._headers = {};
+  }
+
+  public connect(apiKey: string) {
+    this._apiKey = apiKey;
+    this._headers = { ...this._headers, "Api-Key": apiKey };
+    if (this._includedClasses.length) {
+      return this._includedClasses.reduce((acc, current) => {
+        switch (current) {
+          case CATEGORY_TYPE:
+            return { ...acc, Categories: new Category(this) };
+          case TRANSACTION_TYPE:
+          default:
+            return acc;
+        }
+      }, {});
+    }
+    return {
+      Categories: new Category(this),
+    };
   }
 
   get apiKey(): string {

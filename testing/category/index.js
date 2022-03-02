@@ -1,21 +1,13 @@
-const fcsdk = require("../../dist/index");
+const { FinerioConnectSDK, Category } = require("../../dist/index");
 
-const FinerioConnectSDK = fcsdk.FinerioConnectSDK;
-const Category = fcsdk.Category;
-const CategoryObject = fcsdk.CategoryObject;
-
-const fc = new FinerioConnectSDK(
-  "https://pfm-api-sandbox.finerioconnect.com",
-  "905e0065-a797-4139-81ae-66d671a284b7"
-);
+const fcs = new FinerioConnectSDK();
+const { Categories } = fcs.connect("905e0065-a797-4139-81ae-66d671a284b7");
 
 const userId = 1115162;
-const cat = new Category(fc);
-const newcat = new CategoryObject("Gastos Diarios", "#FF0000", null, userId);
-const catupd = new CategoryObject("Vicios", "#0000FF", null);
+const newcat = new Category("Gastos Diarios", "#FF0000", null, userId);
+const catupd = new Category("Vicios", "#0000FF", null);
 
-cat
-  .list(userId)
+Categories.list(userId)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
 

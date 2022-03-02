@@ -1,3 +1,5 @@
+import { IError } from "../interfaces";
+
 export default class Error implements IError {
   constructor(
     public code: string,
