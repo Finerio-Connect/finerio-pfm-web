@@ -9,6 +9,13 @@ import {
 import { IErrorResponse } from "../interfaces";
 import Categories from "../categories/Categories";
 import Budgets from "../budgets";
+import Transactions from "../transaction/Transactions";
+
+interface IClassesDictionary {
+  Categories?: Categories;
+  Transactions?: Transactions;
+  Budgets?: Budgets;
+}
 
 export default class FinerioConnectSDK {
   private _includedClasses: string[];
@@ -22,7 +29,7 @@ export default class FinerioConnectSDK {
     this._headers = {};
   }
 
-  public connect(apiKey: string) {
+  public connect(apiKey: string): IClassesDictionary {
     this._apiKey = apiKey;
     this._headers = { ...this._headers, "Api-Key": apiKey };
     if (this._includedClasses.length) {
@@ -33,6 +40,7 @@ export default class FinerioConnectSDK {
           case BUDGET_TYPE:
             return { ...acc, Categories: new Budgets(this) };
           case TRANSACTION_TYPE:
+            return { ...acc, Transactions: new Transactions(this) };
           default:
             return acc;
         }
@@ -40,6 +48,7 @@ export default class FinerioConnectSDK {
     }
     return {
       Categories: new Categories(this),
+      Transactions: new Transactions(this),
       Budgets: new Budgets(this),
     };
   }
