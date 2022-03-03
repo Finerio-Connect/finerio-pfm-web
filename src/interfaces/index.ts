@@ -1,3 +1,4 @@
+export { default as IAccount } from "./IAccount";
 export { default as ICategory } from "./category/ICategory";
 export { default as ICategoriesRes } from "./category/ICategoriesRes";
 export { default as IError } from "./IError";
