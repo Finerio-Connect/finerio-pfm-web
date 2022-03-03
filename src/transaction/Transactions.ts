@@ -18,54 +18,59 @@ export default class Transactions {
     return status === "" ? 204 : 500;
   }
 
-  private processListResponse(response: ITransactionRes): Transaction[] {
-    if (!response.data) {
-      return [];
-    }
-    return response.data.map((transaction) => new Transaction(transaction));
+  private processListResponseBuild(
+    accountId: number
+  ): (response: ITransactionRes) => Transaction[] {
+    return (response: ITransactionRes): Transaction[] => {
+      if (!response.data) {
+        return [];
+      }
+      return response.data.map(
+        (transaction) => new Transaction({ ...transaction, accountId })
+      );
+    };
   }
 
-  get(id: number): Promise<ITransaction> {
+  /*  */
+
+  get(id?: number): Promise<ITransaction> {
     return this.fcSdk.doGet(`${this.path}/${id}`, this.processResponse);
   }
 
-  update(id: number, updateObject: Transaction): Promise<ITransaction> {
+  update(id?: number, updateObject?: Transaction): Promise<Transaction> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
-      updateObject,
+      updateObject ? updateObject.plainObject : {},
       this.processResponse
     );
   }
 
-  create(transactionToCreate: Transaction): Promise<ITransaction> {
+  create(transactionToCreate: Transaction): Promise<Transaction> {
     return this.fcSdk.doPost(
       this.path,
-      transactionToCreate,
+      transactionToCreate.plainObject,
       this.processResponse
     );
   }
 
-  delete(id: number): Promise<ITransaction> {
+  delete(id?: number): Promise<ITransaction> {
     return this.fcSdk.doDelete(
       `${this.path}/${id}`,
       this.processDeleteResponse
     );
   }
 
-  list(idAccount: number, listOptions?: IListOptions): Promise<ITransaction> {
-    const uri = `${this.path}?accountId=${idAccount}`;
+  list(accountId: number, listOptions?: IListOptions): Promise<Transaction[]> {
+    const uri = `${this.path}?accountId=${accountId}`;
     if (!listOptions) {
-      return this.fcSdk.doGet(
-        uri,
-        this.processListResponse
-      );
+      return this.fcSdk.doGet(uri, this.processListResponseBuild(accountId));
     }
     const { minAmount, maxAmount, dateFrom, dateTo, cursor } = listOptions;
-    const newUri = `${uri}${
-      minAmount ? `&minAmount=${minAmount}` : ""
-    }${maxAmount ? `&maxAmount=${maxAmount}` : ""}${
-      dateFrom ? `&dateFrom=${dateFrom}` : ""
-    }${dateTo ? `&dateTo=${dateTo}` : ""}${cursor ? `&cursor=${cursor}` : ""}`;
-    return this.fcSdk.doGet(newUri, this.processListResponse);
+    const newUri = `${uri}${minAmount ? `&minAmount=${minAmount}` : ""}${
+      maxAmount ? `&maxAmount=${maxAmount}` : ""
+    }${dateFrom ? `&dateFrom=${dateFrom}` : ""}${
+      dateTo ? `&dateTo=${dateTo}` : ""
+    }${cursor ? `&cursor=${cursor}` : ""}`;
+    return this.fcSdk.doGet(newUri, this.processListResponseBuild(accountId));
   }
 }

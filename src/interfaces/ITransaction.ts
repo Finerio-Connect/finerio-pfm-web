@@ -1,6 +1,6 @@
 export default interface ITransaction {
-  id: number;
-  accountId: string;
+  id?: number;
+  accountId?: number;
   date: number | Date;
   charge: boolean;
   description: string;

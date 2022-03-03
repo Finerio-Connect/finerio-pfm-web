@@ -2,13 +2,13 @@ import ITransaction from "../interfaces/ITransaction";
 import PlainObject from "../types/PlainObject";
 
 export default class Transaction implements ITransaction {
-  private _id: number;
+  private _id?: number;
   private _date: Date;
   private _charge: boolean;
   private _description: string;
   private _amount: number;
   private _categoryId: number;
-  private _accountId: string;
+  private _accountId?: number;
   private _dateCreated: Date | null;
   private _lastUpdated: Date | null;
   constructor({
@@ -33,7 +33,7 @@ export default class Transaction implements ITransaction {
     this._lastUpdated = lastUpdated ? new Date(lastUpdated) : null;
   }
 
-  public get id(): number {
+  public get id(): number | undefined {
     return this._id;
   }
 
@@ -56,7 +56,7 @@ export default class Transaction implements ITransaction {
   public get dateCreated(): Date | null {
     return this._dateCreated;
   }
-  
+
   public get description(): string {
     return this._description;
   }
@@ -69,8 +69,12 @@ export default class Transaction implements ITransaction {
     return this._categoryId;
   }
 
-  public get accountId(): string {
+  public get accountId(): number | undefined {
     return this._accountId;
+  }
+
+  public set accountId(value: number | undefined) {
+    this._accountId = value;
   }
 
   public get lastUpdated(): Date | null {

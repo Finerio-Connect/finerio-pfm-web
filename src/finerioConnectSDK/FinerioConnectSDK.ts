@@ -17,13 +17,24 @@ interface IClassesDictionary {
   Budgets?: Budgets;
 }
 
+const getIncludedClasses = (includes?: string[] | string): string[] => {
+  if (includes) {
+    if (Array.isArray(includes)) {
+      return includes;
+    }
+    if (typeof includes === "string") {
+      return [includes];
+    }
+  }
+  return [];
+};
 export default class FinerioConnectSDK {
   private _includedClasses: string[];
   private _apiKey: string;
   private _serverUrl: string;
   private _headers: AxiosRequestHeaders;
-  constructor(includes?: string[]) {
-    this._includedClasses = includes || [];
+  constructor(includes?: string[] | string) {
+    this._includedClasses = getIncludedClasses(includes);
     this._apiKey = "";
     this._serverUrl = SERVER_URL;
     this._headers = {};
@@ -79,7 +90,9 @@ export default class FinerioConnectSDK {
     const url = `${this._serverUrl}${uri}`;
     return new Promise<any>((resolve, reject) => {
       axios
-        .post(url, body, { headers: this._headers })
+        .post(url, body, {
+          headers: this._headers,
+        })
         .then((response) => resolve(success(response.data)))
         .catch((error) => this.processErrors(error, reject));
     });
@@ -113,11 +126,17 @@ export default class FinerioConnectSDK {
     error: AxiosError,
     reject: { (reason?: any): void; (arg0: AxiosError<any, any>): void }
   ) {
-    if (error.response && error.response.data)
+    if (
+      error.response &&
+      error.response.data &&
+      error.response.status !== 500
+    ) {
       reject(this.createErrorBadRequest(error.response?.data));
-    else if (error.response && error.response.status)
+    } else if (error.response && error.response.status) {
       reject(this.createErrorResObject(error));
-    else reject(this.createErrorObject(error));
+    } else {
+      reject(this.createErrorObject(error));
+    }
   }
 
   private createErrorBadRequest(errors: IErrorResponse) {
