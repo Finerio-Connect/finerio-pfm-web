@@ -1,9 +1,7 @@
 import FinerioConnectSDK from "../finerioConnectSDK";
-import { ITransaction } from "../interfaces";
+import { IListOptions, ITransaction, ITransactionRes } from "../interfaces";
 import { Transaction } from "../models";
-
-import IListOptions from "./IListOptions";
-import ITransactionRes from "./ITransactionRes";
+import { TransactionPayload } from "../payloads";
 
 export default class Transactions {
   private path: string = "/cc6ba13e82dbaf4505ae7324c0c151aa53622329";
@@ -33,11 +31,11 @@ export default class Transactions {
 
   /*  */
 
-  get(id?: number): Promise<ITransaction> {
+  get(id: number): Promise<ITransaction> {
     return this.fcSdk.doGet(`${this.path}/${id}`, this.processResponse);
   }
 
-  update(id?: number, updateObject?: Transaction): Promise<Transaction> {
+  update(id: number, updateObject?: Transaction): Promise<Transaction> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
       updateObject ? updateObject.plainObject : {},
@@ -45,7 +43,7 @@ export default class Transactions {
     );
   }
 
-  create(transactionToCreate: Transaction): Promise<Transaction> {
+  create(transactionToCreate: TransactionPayload): Promise<Transaction> {
     return this.fcSdk.doPost(
       this.path,
       transactionToCreate.plainObject,
@@ -53,7 +51,7 @@ export default class Transactions {
     );
   }
 
-  delete(id?: number): Promise<ITransaction> {
+  delete(id: number): Promise<ITransaction> {
     return this.fcSdk.doDelete(
       `${this.path}/${id}`,
       this.processDeleteResponse

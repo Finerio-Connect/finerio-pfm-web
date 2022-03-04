@@ -1,6 +1,6 @@
-import { assert, expect } from "chai";
-import { FinerioConnectSDK, TRANSACTION_TYPE } from "../src/index";
-import { Transaction } from "../src/models";
+import { expect } from "chai";
+import { FinerioConnectSDK, TRANSACTION_TYPE, Transaction } from "../src/index";
+import { Transaction as TransactionModel } from "../src/models";
 
 describe("Transactions", () => {
   const fcs = new FinerioConnectSDK(TRANSACTION_TYPE);
@@ -23,18 +23,18 @@ describe("Transactions", () => {
       });
     });
   });
-  let newTransaction: Transaction;
+  let newTransaction: TransactionModel;
 
   describe("#Create", () => {
     it("Should be Success", () => {
-      let transaction = new Transaction({
+      let transaction = new Transaction(
         accountId,
-        date: new Date().getTime() / 1000,
-        charge: true,
-        description: "Mocha Test",
-        amount: 1111,
-        categoryId: 79,
-      });
+        new Date(),
+        true,
+        "Mocha Test",
+        1111,
+        79
+      );
       return Transactions?.create(transaction).then((response) => {
         newTransaction = response;
         return expect(response).to.exist;
@@ -44,7 +44,7 @@ describe("Transactions", () => {
 
   describe("#Get", () => {
     it("Should be Error", () => {
-      return Transactions?.get().catch((error) => {
+      return Transactions?.get(0).catch((error) => {
         expect(error).to.be.an("array");
         expect(error.length).to.be.greaterThan(0);
       });
@@ -58,7 +58,7 @@ describe("Transactions", () => {
 
   describe("#Update", () => {
     it("Should be Error", () => {
-      return Transactions?.update().catch((error) => {
+      return Transactions?.update(0).catch((error) => {
         expect(error).to.be.an("array");
         expect(error.length).to.be.greaterThan(0);
       });
@@ -76,7 +76,7 @@ describe("Transactions", () => {
 
   describe("#Delete", () => {
     it("Should be Error", () => {
-      return Transactions?.delete().catch((error) => {
+      return Transactions?.delete(0).catch((error) => {
         expect(error).to.be.an("array");
         expect(error.length).to.be.greaterThan(0);
       });
