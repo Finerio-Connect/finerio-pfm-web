@@ -1,6 +1,8 @@
 import FinerioConnectSDK from "../finerioConnectSDK";
 import { IAccount, IAccountRes } from "../interfaces";
 import { Account } from "../models";
+import { AccountPayload } from "../payloads";
+
 export default class Accounts {
   private path: string = "/ddde998e39f1892650715c23817c09e102ac1ec4";
 
@@ -21,11 +23,11 @@ export default class Accounts {
     return response.data.map((account: IAccount) => new Account(account));
   }
 
-  get(id?: number): Promise<IAccount> {
+  get(id: number): Promise<IAccount> {
     return this.fcSdk.doGet(`${this.path}/${id}`, this.processResponse);
   }
 
-  update(id?: number, updateObject?: Account): Promise<Account> {
+  update(id: number, updateObject?: Account): Promise<Account> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
       updateObject ? updateObject.plainObject : {},
@@ -33,7 +35,7 @@ export default class Accounts {
     );
   }
 
-  create(accountToCreate: Account): Promise<Account> {
+  create(accountToCreate: AccountPayload): Promise<Account> {
     return this.fcSdk.doPost(
       this.path,
       accountToCreate.plainObject,
@@ -41,7 +43,7 @@ export default class Accounts {
     );
   }
 
-  delete(id?: number): Promise<IAccount> {
+  delete(id: number): Promise<IAccount> {
     return this.fcSdk.doDelete(
       `${this.path}/${id}`,
       this.processDeleteResponse
