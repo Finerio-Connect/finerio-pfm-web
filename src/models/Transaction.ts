@@ -1,16 +1,16 @@
-import ITransaction from "../interfaces/ITransaction";
+import { ITransaction } from "../interfaces";
 import PlainObject from "../types/PlainObject";
 
 export default class Transaction implements ITransaction {
-  private _id?: number;
-  private _date: Date;
+  private _id: number;
+  private _date: number;
   private _charge: boolean;
   private _description: string;
   private _amount: number;
   private _categoryId: number;
   private _accountId?: number;
-  private _dateCreated: Date | null;
-  private _lastUpdated: Date | null;
+  private _dateCreated: number | null;
+  private _lastUpdated: number | null;
   constructor({
     id,
     accountId,
@@ -26,14 +26,14 @@ export default class Transaction implements ITransaction {
     this._accountId = accountId;
     this._amount = amount;
     this._charge = charge;
-    this._date = new Date(date);
+    this._date = date;
     this._description = description;
     this._categoryId = categoryId;
-    this._dateCreated = dateCreated ? new Date(dateCreated) : null;
-    this._lastUpdated = lastUpdated ? new Date(lastUpdated) : null;
+    this._dateCreated = dateCreated;
+    this._lastUpdated = lastUpdated;
   }
 
-  public get id(): number | undefined {
+  public get id(): number {
     return this._id;
   }
 
@@ -45,15 +45,15 @@ export default class Transaction implements ITransaction {
     this._charge = value;
   }
 
-  public get date(): Date {
+  public get date(): number {
     return this._date;
   }
 
-  public set date(value: Date) {
+  public set date(value: number) {
     this._date = value;
   }
 
-  public get dateCreated(): Date | null {
+  public get dateCreated(): number | null {
     return this._dateCreated;
   }
 
@@ -77,7 +77,7 @@ export default class Transaction implements ITransaction {
     this._accountId = value;
   }
 
-  public get lastUpdated(): Date | null {
+  public get lastUpdated(): number | null {
     return this._lastUpdated;
   }
 
@@ -88,10 +88,10 @@ export default class Transaction implements ITransaction {
       amount: this._amount,
       categoryId: this._categoryId,
       charge: this._charge,
-      date: this._date.getTime(),
-      dateCreated: this._dateCreated && this._dateCreated.getTime(),
+      date: this._date,
+      dateCreated: this._dateCreated && this._dateCreated,
       description: this._description,
-      lastUpdated: this._lastUpdated && this._lastUpdated.getTime(),
+      lastUpdated: this._lastUpdated && this._lastUpdated,
     };
   }
 }

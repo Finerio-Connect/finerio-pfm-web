@@ -1,8 +1,11 @@
-export { default as IAccount } from "./IAccount";
+export { default as IAccount } from "./account/IAccount";
+export { default as IAccountRes } from "./account/IAccountRes";
 export { default as ICategory } from "./category/ICategory";
 export { default as ICategoriesRes } from "./category/ICategoriesRes";
 export { default as IError } from "./IError";
 export { default as IErrorResponse } from "./IErrorResponse";
-export { default as ITransaction } from "./ITransaction";
+export { default as ITransaction } from "./transaction/ITransaction";
+export { default as ITransactionRes } from "./transaction/ITransactionRes";
 export { default as IBudget } from "./budget/IBudget";
 export { default as IBudgetsRes } from "./budget/IBudgetsRes";
+export { default as IListOptions } from "./transaction/IListOptions";
