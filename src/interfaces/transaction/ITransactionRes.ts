@@ -1,4 +1,4 @@
-import { ITransaction } from "../interfaces";
+import ITransaction from "./ITransaction";
 
 export default interface ITransactionRes {
   data: ITransaction[];

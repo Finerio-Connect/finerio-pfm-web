@@ -1,4 +1,4 @@
-import IAccount from "../interfaces/IAccount";
+import { IAccount } from "../interfaces";
 import PlainObject from "../types/PlainObject";
 
 export default class Account implements IAccount {
