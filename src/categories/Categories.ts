@@ -4,18 +4,14 @@ import { Category, ParentCategory } from "../models";
 import { CategoryPayload } from "../payloads";
 
 export default class Categories {
-  path: string = "/b07db4dc65bda086ae37ffeb8e03a126b18ffa6f";
+  private path: string = "/b07db4dc65bda086ae37ffeb8e03a126b18ffa6f";
 
   constructor(public fcSdk: FinerioConnectSDK) {}
 
   get(id: number): Promise<ICategory> {
     const uri = `${this.path}/${id}`;
 
-    return this.fcSdk.doGet(uri, this.processGetResponse);
-  }
-
-  private processGetResponse(response: ICategory): Category {
-    return new Category(response);
+    return this.fcSdk.doGet(uri, this.processResponse);
   }
 
   update(id: number, updateObject: CategoryPayload): Promise<ICategory> {
@@ -24,12 +20,8 @@ export default class Categories {
     return this.fcSdk.doPut(
       uri,
       updateObject.plainObject,
-      this.processUpdateResponse
+      this.processResponse
     );
-  }
-
-  private processUpdateResponse(response: ICategory): Category {
-    return new Category(response);
   }
 
   create(createCategory: CategoryPayload): Promise<ICategory> {
@@ -38,11 +30,11 @@ export default class Categories {
     return this.fcSdk.doPost(
       uri,
       createCategory.plainObject,
-      this.processCreateResponse
+      this.processResponse
     );
   }
 
-  private processCreateResponse(response: ICategory): Category {
+  private processResponse(response: ICategory): Category {
     return new Category(response);
   }
 
@@ -56,7 +48,7 @@ export default class Categories {
     return status === "" ? 204 : 500;
   }
 
-  list(userId?: number, cursor: number = 1): Promise<ICategory> {
+  list(userId?: number, cursor: number = 1): Promise<any> {
     const uri = `${this.path}${
       userId ? `?userId=${userId}&cursor=${cursor}` : ""
     }`;
@@ -71,10 +63,7 @@ export default class Categories {
     return categories;
   }
 
-  listWithSubcategories(
-    userId?: number,
-    cursor: number = 1
-  ): Promise<ICategory> {
+  listWithSubcategories(userId?: number, cursor: number = 1): Promise<any> {
     const uri = `${this.path}${
       userId ? `?userId=${userId}&cursor=${cursor}` : ""
     }`;

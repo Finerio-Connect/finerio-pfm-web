@@ -8,4 +8,6 @@ export default interface ITransaction {
   categoryId: number;
   dateCreated: number | null;
   lastUpdated: number | null;
+  average?: number;
+  quantity?: number;
 }

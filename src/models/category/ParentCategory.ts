@@ -32,7 +32,7 @@ export default class ParentCategory extends Category {
     return this._subcategories;
   }
 
-  public set subcategories(_subcategories: Category[]) {
-    this._subcategories = _subcategories;
+  public set subcategories(subcategories: Category[]) {
+    this._subcategories = subcategories;
   }
 }

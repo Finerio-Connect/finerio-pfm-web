@@ -11,11 +11,7 @@ export default class Budgets {
   get(id: number): Promise<IBudget> {
     const uri = `${this.path}/${id}`;
 
-    return this.fcSdk.doGet(uri, this.processGetResponse);
-  }
-
-  private processGetResponse(response: IBudget): Budget {
-    return new Budget(response);
+    return this.fcSdk.doGet(uri, this.processResponse);
   }
 
   update(id: number, updateObject: BudgetPayload): Promise<IBudget> {
@@ -24,12 +20,8 @@ export default class Budgets {
     return this.fcSdk.doPut(
       uri,
       updateObject.plainObject,
-      this.processUpdateResponse
+      this.processResponse
     );
-  }
-
-  private processUpdateResponse(response: IBudget): Budget {
-    return new Budget(response);
   }
 
   create(createBudget: BudgetPayload): Promise<IBudget> {
@@ -38,11 +30,11 @@ export default class Budgets {
     return this.fcSdk.doPost(
       uri,
       createBudget.plainObject,
-      this.processCreateResponse
+      this.processResponse
     );
   }
 
-  private processCreateResponse(response: IBudget): Budget {
+  private processResponse(response: IBudget): Budget {
     return new Budget(response);
   }
 
@@ -56,10 +48,8 @@ export default class Budgets {
     return status === "" ? 204 : 500;
   }
 
-  list(userId?: number, cursor: number = 1): Promise<IBudget> {
-    const uri = `${this.path}${
-      userId ? `?userId=${userId}&cursor=${cursor}` : ""
-    }`;
+  list(userId: number): Promise<any> {
+    const uri = `${this.path}${`?userId=${userId}`}`;
     return this.fcSdk.doGet(uri, this.processlistResponse);
   }
 

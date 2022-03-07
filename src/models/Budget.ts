@@ -1,5 +1,5 @@
-import { IBudget } from "../../interfaces";
-import { PlainObject } from "../../types";
+import { IBudget } from "../interfaces";
+import { PlainObject } from "../types";
 
 export default class Budget implements IBudget {
   private _id: number;

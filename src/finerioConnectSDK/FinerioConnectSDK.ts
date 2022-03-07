@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestHeaders } from "axios";
 import Error from "../error";
 import {
   ACCOUNT_TYPE,
@@ -6,18 +6,21 @@ import {
   CATEGORY_TYPE,
   TRANSACTION_TYPE,
   BUDGET_TYPE,
+  INSIGHTS_TYPE,
 } from "../constants";
 import { IErrorResponse } from "../interfaces";
 import Categories from "../categories/Categories";
-import Budgets from "../budgets";
+import Budgets from "../budgets/Budgets";
 import Accounts from "../accounts";
 import Transactions from "../transactions/Transactions";
+import Insights from "../insights/Insights";
 
 interface IClassesDictionary {
   Accounts?: Accounts;
   Categories?: Categories;
   Transactions?: Transactions;
   Budgets?: Budgets;
+  Insights?: Insights;
 }
 
 const getIncludedClasses = (includes?: string[] | string): string[] => {
@@ -54,9 +57,11 @@ export default class FinerioConnectSDK {
           case CATEGORY_TYPE:
             return { ...acc, Categories: new Categories(this) };
           case BUDGET_TYPE:
-            return { ...acc, Categories: new Budgets(this) };
+            return { ...acc, Budgets: new Budgets(this) };
           case TRANSACTION_TYPE:
             return { ...acc, Transactions: new Transactions(this) };
+          case INSIGHTS_TYPE:
+            return { ...acc, Insights: new Insights(this) };
           default:
             return acc;
         }
@@ -67,6 +72,7 @@ export default class FinerioConnectSDK {
       Categories: new Categories(this),
       Transactions: new Transactions(this),
       Budgets: new Budgets(this),
+      Insights: new Insights(this),
     };
   }
 
