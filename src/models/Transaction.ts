@@ -11,6 +11,8 @@ export default class Transaction implements ITransaction {
   private _accountId?: number;
   private _dateCreated: number | null;
   private _lastUpdated: number | null;
+  private _average?: number;
+  private _quantity?: number;
   constructor({
     id,
     accountId,
@@ -79,6 +81,14 @@ export default class Transaction implements ITransaction {
 
   public get lastUpdated(): number | null {
     return this._lastUpdated;
+  }
+
+  public get average(): number | undefined {
+    return this._average;
+  }
+
+  public get quantity(): number | undefined {
+    return this._quantity;
   }
 
   public get plainObject(): PlainObject {
