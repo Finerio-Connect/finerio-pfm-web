@@ -5,3 +5,4 @@ export { default as Transaction } from "./Transaction";
 export { default as Budget } from "./Budget";
 export { default as Resume } from "./insights/Resume";
 export { default as Analysis } from "./insights/Analysis";
+export { default as User } from "./User";

@@ -56,11 +56,9 @@ export default class Categories {
   }
 
   private processlistResponse(response: ICategoriesRes): Category[] {
-    let categories: Category[] = [];
-    if (response.data)
-      categories = response.data.reverse().map((cat) => new Category(cat));
-
-    return categories;
+    return response.data
+      ? response.data.reverse().map((cat) => new Category(cat))
+      : [];
   }
 
   listWithSubcategories(userId?: number, cursor: number = 1): Promise<any> {

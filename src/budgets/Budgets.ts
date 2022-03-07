@@ -54,10 +54,8 @@ export default class Budgets {
   }
 
   private processlistResponse(response: IBudgetsRes): Budget[] {
-    let budgets: Budget[] = [];
-    if (response.data)
-      budgets = response.data.reverse().map((bud) => new Budget(bud));
-
-    return budgets;
+    return response.data
+      ? response.data.reverse().map((bud) => new Budget(bud))
+      : [];
   }
 }
