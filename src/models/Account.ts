@@ -84,14 +84,10 @@ export default class Account implements IAccount {
 
   public get plainObject(): PlainObject {
     return {
-      id: this._id,
       nature: this._nature,
       name: this._name,
       number: this._number,
       balance: this._balance,
-      chargeable: this._chargeable,
-      dateCreated: this._dateCreated && this._dateCreated.getTime(),
-      lastUpdated: this._lastUpdated && this._lastUpdated.getTime(),
     };
   }
 }

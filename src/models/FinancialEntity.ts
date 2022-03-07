@@ -51,11 +51,8 @@ export default class FinancialEntity implements IFinancialEntity {
 
   public get plainObject(): PlainObject {
     return {
-      id: this._id,
       name: this._name,
       code: this._code,
-      dateCreated: this._dateCreated && this._dateCreated.getTime(),
-      lastUpdated: this._lastUpdated && this._lastUpdated.getTime(),
     };
   }
 }

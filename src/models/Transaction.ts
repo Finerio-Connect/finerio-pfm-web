@@ -83,15 +83,11 @@ export default class Transaction implements ITransaction {
 
   public get plainObject(): PlainObject {
     return {
-      id: this._id,
-      accountId: this._accountId,
       amount: this._amount,
       categoryId: this._categoryId,
       charge: this._charge,
       date: this._date,
-      dateCreated: this._dateCreated && this._dateCreated,
       description: this._description,
-      lastUpdated: this._lastUpdated && this._lastUpdated,
     };
   }
 }
