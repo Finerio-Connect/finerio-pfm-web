@@ -10,3 +10,5 @@ export { default as ITransactionRes } from "./transaction/ITransactionRes";
 export { default as IBudget } from "./budget/IBudget";
 export { default as IBudgetsRes } from "./budget/IBudgetsRes";
 export { default as IListOptions } from "./transaction/IListOptions";
+export { default as IUser } from "./user/IUser";
+export { default as IUserRes } from "./user/IUserRes";

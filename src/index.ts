@@ -11,4 +11,5 @@ export {
   FinancialEntityPayload as FinancialEntity,
   BudgetPayload as Budget,
   TransactionPayload as Transaction,
+  UserPayload as User,
 } from "./payloads";

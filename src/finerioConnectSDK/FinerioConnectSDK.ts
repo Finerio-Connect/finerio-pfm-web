@@ -7,6 +7,7 @@ import {
   TRANSACTION_TYPE,
   BUDGET_TYPE,
   INSIGHTS_TYPE,
+  USERS_TYPE,
 } from "../constants";
 import { IErrorResponse } from "../interfaces";
 import Categories from "../categories/Categories";
@@ -14,6 +15,7 @@ import Budgets from "../budgets/Budgets";
 import Accounts from "../accounts";
 import Transactions from "../transactions/Transactions";
 import Insights from "../insights/Insights";
+import Users from "../users/Users";
 
 interface IClassesDictionary {
   Accounts?: Accounts;
@@ -21,6 +23,7 @@ interface IClassesDictionary {
   Transactions?: Transactions;
   Budgets?: Budgets;
   Insights?: Insights;
+  Users?: Users;
 }
 
 const getIncludedClasses = (includes?: string[] | string): string[] => {
@@ -62,6 +65,8 @@ export default class FinerioConnectSDK {
             return { ...acc, Transactions: new Transactions(this) };
           case INSIGHTS_TYPE:
             return { ...acc, Insights: new Insights(this) };
+          case USERS_TYPE:
+            return { ...acc, Users: new Users(this) };
           default:
             return acc;
         }
@@ -73,6 +78,7 @@ export default class FinerioConnectSDK {
       Transactions: new Transactions(this),
       Budgets: new Budgets(this),
       Insights: new Insights(this),
+      Users: new Users(this),
     };
   }
 
