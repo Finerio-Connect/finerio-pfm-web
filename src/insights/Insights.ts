@@ -4,7 +4,7 @@ import { Analysis, Resume } from "../models";
 
 export default class Insights {
   private resumePath: string = "/f4f8faab7f280eaf05fc812c285c7902f6a6d05a";
-  private analysisPath: string = "/analysis";
+  private analysisPath: string = "/824aa15eed3dfc815bd0bec5c34354d471a44557";
 
   constructor(public fcSdk: FinerioConnectSDK) {}
 

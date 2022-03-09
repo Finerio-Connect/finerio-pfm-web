@@ -23,6 +23,8 @@ export default class Transaction implements ITransaction {
     dateCreated,
     description,
     lastUpdated,
+    average,
+    quantity,
   }: ITransaction) {
     this._id = id;
     this._accountId = accountId;
@@ -33,6 +35,8 @@ export default class Transaction implements ITransaction {
     this._categoryId = categoryId;
     this._dateCreated = dateCreated;
     this._lastUpdated = lastUpdated;
+    this._average = average;
+    this._quantity = quantity;
   }
 
   public get id(): number {
