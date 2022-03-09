@@ -4,6 +4,7 @@ import {
   ACCOUNT_TYPE,
   SERVER_URL,
   CATEGORY_TYPE,
+  FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
   BUDGET_TYPE,
   INSIGHTS_TYPE,
@@ -13,6 +14,7 @@ import { IErrorResponse } from "../interfaces";
 import Categories from "../categories/Categories";
 import Budgets from "../budgets/Budgets";
 import Accounts from "../accounts";
+import FinancialEntities from "../financialEntities";
 import Transactions from "../transactions/Transactions";
 import Insights from "../insights/Insights";
 import Users from "../users/Users";
@@ -20,6 +22,7 @@ import Users from "../users/Users";
 interface IClassesDictionary {
   Accounts?: Accounts;
   Categories?: Categories;
+  FinancialEntities?: FinancialEntities;
   Transactions?: Transactions;
   Budgets?: Budgets;
   Insights?: Insights;
@@ -61,6 +64,8 @@ export default class FinerioConnectSDK {
             return { ...acc, Categories: new Categories(this) };
           case BUDGET_TYPE:
             return { ...acc, Budgets: new Budgets(this) };
+          case FINANCIAL_ENTITY_TYPE:
+            return { ...acc, FinancialEntities: new FinancialEntities(this) };
           case TRANSACTION_TYPE:
             return { ...acc, Transactions: new Transactions(this) };
           case INSIGHTS_TYPE:
@@ -75,6 +80,7 @@ export default class FinerioConnectSDK {
     return {
       Accounts: new Accounts(this),
       Categories: new Categories(this),
+      FinancialEntities: new FinancialEntities(this),
       Transactions: new Transactions(this),
       Budgets: new Budgets(this),
       Insights: new Insights(this),
