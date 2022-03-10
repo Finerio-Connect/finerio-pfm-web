@@ -38,7 +38,7 @@ export default class Transactions {
   update(id: number, updateObject?: Transaction): Promise<Transaction> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
-      updateObject ? updateObject.plainObject : {},
+      updateObject ? updateObject.payload : {},
       this.processResponse
     );
   }

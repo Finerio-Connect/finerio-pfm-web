@@ -38,7 +38,7 @@ export default class FinancialEntities {
   ): Promise<FinancialEntity> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
-      updateObject ? updateObject.plainObject : {},
+      updateObject ? updateObject.payload : {},
       this.processResponse
     );
   }
