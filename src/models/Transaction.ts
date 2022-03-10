@@ -95,13 +95,26 @@ export default class Transaction implements ITransaction {
     return this._quantity;
   }
 
-  public get plainObject(): PlainObject {
+  public get payload(): PlainObject {
     return {
       amount: this._amount,
       categoryId: this._categoryId,
       charge: this._charge,
       date: this._date,
       description: this._description,
+    };
+  }
+
+  public get toJSON(): PlainObject {
+    return {
+      id: this._id,
+      amount: this._amount,
+      categoryId: this._categoryId,
+      charge: this._charge,
+      date: this._date,
+      description: this._description,
+      dateCreated: this._dateCreated,
+      lastUpdated: this.lastUpdated,
     };
   }
 }
