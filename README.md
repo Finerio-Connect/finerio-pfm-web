@@ -33,37 +33,35 @@ npm install finerio-pfm-web
 ```javascript
 import { FinerioConnectSDK } from "finerio-pfm-web";
 import {
-  ACCOUNT_TYPE,
   CATEGORY_TYPE,
   FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
-  BUDGET_TYPE,
-  INSIGHTS_TYPE,
-  USERS_TYPE,
 } from "finerio-pfm-web";
 
+//The constructor can receive an array of types or a single type, depending on which SDK instances you want to use. If constructor has no parameters all the SDK instances will be returned.
 const fcPfm = new FinerioConnectSDK([
-  ACCOUNT_TYPE,
   CATEGORY_TYPE,
   FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
-  BUDGET_TYPE,
-  INSIGHTS_TYPE,
-  USERS_TYPE,
 ]);
 
-const {
-  Accounts,
-  Categories,
-  FinancialEntities,
-  Transactions,
-  Budgets,
-  Insights,
-  Users,
-} = fcPfm.connect(API_KEY);
+//Call the connect method passing the api key as a parameter to obtain an object with the previously established instances.
+const { Categories, FinancialEntities, Transactions } = fcPfm.connect(API_KEY);
 ```
 
-If constructor has no parameters all the SDK instances will be returned otherwise only instances of parameters setted will be returned.
+
+The following constant types can be used:
+| Instance Types        | Instance returned when you connect |
+| --------------------- | ---------------------------------- |
+| ACCOUNT_TYPE          | `Accounts`                         |
+| CATEGORY_TYPE         | `Categories`                       |
+| FINANCIAL_ENTITY_TYPE | `FinancialEntities`                |
+| TRANSACTION_TYPE      | `Transactions`                     |
+| BUDGET_TYPE           | `Budgets`                          |
+| INSIGHTS_TYPE         | `Insights`                         |
+| USERS_TYPE            | `Users`                            |
+
+
 
 ## Usage
 
