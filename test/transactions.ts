@@ -64,8 +64,15 @@ describe("Transactions", () => {
       });
     });
     it("Should be Success", () => {
-      newTransaction.charge = false;
-      return Transactions?.update(newTransaction.id, newTransaction).then(
+      let transaction = new Transaction(
+        accountId,
+        new Date(),
+        false,
+        "Mocha Test",
+        1111,
+        79
+      );
+      return Transactions?.update(newTransaction.id, transaction).then(
         (response) => {
           expect(response).to.exist;
           expect(response.charge).to.be.false;
