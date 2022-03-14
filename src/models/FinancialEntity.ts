@@ -49,14 +49,7 @@ export default class FinancialEntity implements IFinancialEntity {
     return this._lastUpdated;
   }
 
-  public get payload(): PlainObject {
-    return {
-      name: this._name,
-      code: this._code,
-    };
-  }
-
-  public get toJSON(): PlainObject {
+  public get plainObject(): PlainObject {
     return {
       id: this._id,
       name: this._name,

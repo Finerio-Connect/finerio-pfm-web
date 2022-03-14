@@ -34,11 +34,11 @@ export default class FinancialEntities {
 
   update(
     id: number,
-    updateObject?: FinancialEntity
+    updateObject?: FinancialEntityPayload
   ): Promise<FinancialEntity> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
-      updateObject ? updateObject.payload : {},
+      updateObject ? updateObject.plainObject : {},
       this.processResponse
     );
   }
