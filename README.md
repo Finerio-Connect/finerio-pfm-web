@@ -109,6 +109,7 @@ Output:
 Given a valid user ID, fetches the information of a user.
 
 ```javascript
+const userId = 1115162;
 Users.get(userId)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
@@ -162,8 +163,9 @@ import { User } from "finerio-pfm-web";
 ...
 
 const user = new User("testupd@finerioconnect.com");
+const userId = 2230329;
 
-Users.update(2230329, user)
+Users.update(userId, user)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
 ```
@@ -184,7 +186,8 @@ User {
 Given a valid user id deletes a user.
 
 ```javascript
-Users.delete(2230329)
+const userId = 2230329;
+Users.delete(userId)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
 ```
