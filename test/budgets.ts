@@ -9,7 +9,7 @@ describe("Budgets", () => {
     return expect(Budgets).to.exist;
   });
   const userId = 1115162;
-  const budgetId = 5;
+  const categoryId = 5;
   let budgetTest: BudgetModel;
   describe("#List", () => {
     it("Should return user's budgets", () => {
@@ -21,7 +21,7 @@ describe("Budgets", () => {
   });
   describe("#Create", () => {
     it("Should create Budget", () => {
-      const budgetPayload = new Budget(budgetId, "Test", 5000, 0.5, userId);
+      const budgetPayload = new Budget("Test", 5000, 0.5, categoryId, userId);
       return Budgets?.create(budgetPayload).then((response) => {
         budgetTest = new BudgetModel(response);
         return expect(response).to.exist;
@@ -43,7 +43,7 @@ describe("Budgets", () => {
   });
 
   describe("#Update", () => {
-    const budgetPayload = new Budget(null, "Test 2", 6000, 0.6);
+    const budgetPayload = new Budget("Test 2", 6000, 0.6);
     it("Should be Error", () => {
       return Budgets?.update(0, budgetPayload).catch((error) => {
         expect(error).to.be.an("array");
