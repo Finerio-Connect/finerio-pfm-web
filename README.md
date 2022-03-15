@@ -20,6 +20,11 @@ This SDK lets you connect to [Finerio PFM API](https://pfm-api-docs.finerioconne
     - [Update Financial Entity](#update-financial-entity)
     - [Delete Financial Entity](#delete-financial-entity)
   - [Accounts](#accounts)
+    - [List Accounts](#list-accounts)
+    - [Get Account](#get-account)
+    - [Create Account](#create-account)
+    - [Update Account](#update-account)
+    - [Delete Account](#delete-account)
   - [Categories](#categories)
   - [Transactions](#transactions)
   - [Budgets](#budgets)
@@ -307,7 +312,7 @@ import { FinancialEntity } from "finerio-pfm-web";
 const financialEntity = new FinancialEntity("Test National Bank",
         "TEST-NB-2");
 
-FinancialEntities.update(1486880, financialEntity)
+FinancialEntities.update(financialEntityId, financialEntity)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
 ```
@@ -330,7 +335,7 @@ FinancialEntity {
 Deletes a financial entity. All accounts related to this financial entity remain active.
 
 ```javascript
-FinancialEntities.delete(1486880)
+FinancialEntities.delete(financialEntityId)
   .then((data) => console.log(data))
   .catch((error) => console.log(error));
 ```
@@ -342,9 +347,175 @@ Output:
 
 ```
 
-If the user was deleted code 204 will be returned.
+If the financial entity was deleted code 204 will be returned.
 
 ### Accounts
+
+An account is the representation of your users' bank accounts.
+
+### List Accounts
+
+Fetches a list of accounts per user, sorted by ID in descending order.
+
+```javascript
+Accounts.list(userId, [cursor])
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+The ID of the user that owns the accounts is required. If a cursor is specified, the list starts with the item that has that ID.
+
+Output:
+
+```console
+[
+  Account {
+    id: 2230303,
+    dateCreated: 1646243107260,
+    lastUpdated: 1646243107260,
+    nature: "Mortgage",
+    name: "nas",
+    number: "1234126312341234",
+    balance: 100,
+    chargeable: false
+  },
+  Account {
+    id: 1486887,
+    dateCreated: 1645212332784,
+    lastUpdated: 1645212433106,
+    nature: "Investment",
+    name: "Investment Account",
+    number: "0277",
+    balance: 251.03,
+    chargeable: false
+  }
+  ...
+]
+
+```
+
+### Get Account
+
+Given a valid account ID, fetches the information of an account.
+
+```javascript
+Accounts.get(accountId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Account {
+  id: 2230303,
+  dateCreated: 1646243107260,
+  lastUpdated: 1646243107260,
+  nature: "Mortgage",
+  name: "nas",
+  number: "1234126312341234",
+  balance: 100,
+  chargeable: false
+},
+
+```
+
+### Create Account
+
+Creates an account. A previosuly created user and a financial entity is required. You have to import the Account Payload Model to create a new one.
+
+```javascript
+import { Account } from "finerio-pfm-web";
+
+...
+
+const account = new Account(
+        1115164,
+        743443,
+        "Mortgage",
+        "Cuenta prueba",
+        "1111 1111 1111 1111",
+        1000
+      );
+
+Accounts.create(account)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Account {
+  id: 2230303,
+  dateCreated: 1646243107260,
+  lastUpdated: 1646243107260,
+  nature: "Mortgage",
+  name: "Cuenta prueba",
+  number: "1111 1111 1111 1111",
+  balance: 1000,
+  chargeable: false
+}
+
+```
+
+### Update Account
+
+Updates an account. You have to import the Account Payload Model to update it.
+
+```javascript
+import { Account } from "finerio-pfm-web";
+
+...
+
+const account = new Account(
+        1115164,
+        743443,
+        "Mortgage",
+        "Cuenta prueba 2",
+        "1111 1111 1111 1111",
+        1000
+      );
+
+Accounts.update(accountId, account)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Account {
+  id: 2230303,
+  dateCreated: 1646243107260,
+  lastUpdated: 1646243107260,
+  nature: "Mortgage",
+  name: "Cuenta prueba 2",
+  number: "1111 1111 1111 1111",
+  balance: 1000,
+  chargeable: false
+}
+
+```
+
+### Delete Account
+
+Deletes an account and all its information, including transactions.
+
+```javascript
+Accounts.delete(accountId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+204
+
+```
+
+If the account was deleted code 204 will be returned.
 
 ### Categories
 
