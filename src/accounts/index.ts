@@ -27,10 +27,10 @@ export default class Accounts {
     return this.fcSdk.doGet(`${this.path}/${id}`, this.processResponse);
   }
 
-  update(id: number, updateObject?: Account): Promise<Account> {
+  update(id: number, updateObject?: AccountPayload): Promise<Account> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
-      updateObject ? updateObject.payload : {},
+      updateObject ? updateObject.plainObject : {},
       this.processResponse
     );
   }
