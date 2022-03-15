@@ -18,6 +18,11 @@ This SDK lets you connect to [Finerio PFM API](https://pfm-api-docs.finerioconne
   - [Categories](#categories)
   - [Transactions](#transactions)
   - [Budgets](#budgets)
+    - [List Budgets](#list-budgets)
+    - [Get Budget](#get-budget)
+    - [Create Budget](#create-budget)
+    - [Update Budget](#update-budget)
+    - [Delete Budget](#delete-budget)
   - [Insights](#insights)
 
 ## Installation
@@ -134,7 +139,6 @@ Creates a user. You have to import the User Payload Model to create a new one.
 import { User } from "finerio-pfm-web";
 
 ...
-
 const user = new User("test@finerioconnect.com");
 
 Users.create(user)
@@ -210,5 +214,190 @@ If the user was deleted code 204 will be returned.
 ### Transactions
 
 ### Budgets
+
+A budget is the representation of your users' budget plan.
+
+### List Budgets
+
+Fetches a list of budgets per user, sorted by ID in descending order.
+
+```javascript
+const userId = 1115162;
+
+Budgets.list(userId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+If a cursor is specified, the list starts with the item that has that ID.
+
+Output:
+
+```console
+[
+  Budget {
+    _id: 1486872,
+    _categoryId: 3,
+    _name: 'Streaming services',
+    _amount: 1500,
+    _warningPercentage: 0.6,
+    _spent: 0,
+    _leftToSpend: 1500,
+    _status: 'ok',
+    _dateCreated: 1646257102160,
+    _lastUpdated: 1646257642253
+  },
+  Budget {
+    _id: 1486874,
+    _categoryId: 87,
+    _name: 'Sports',
+    _amount: 178.17999267578125,
+    _warningPercentage: 0.7,
+    _spent: 0,
+    _leftToSpend: 178.17999267578125,
+    _status: 'ok',
+    _dateCreated: 1646259181915,
+    _lastUpdated: 1646259181915
+  },
+  ...
+]
+
+```
+
+### Get Budget
+
+Given a valid budget ID, fetches the information of a budget.
+
+```javascript
+const budgetId = 1486874;
+Budgets.get(budgetId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Budget {
+  _id: 1486874,
+  _categoryId: 87,
+  _name: 'Sports',
+  _amount: 178.17999267578125,
+  _warningPercentage: 0.7,
+  _spent: 0,
+  _leftToSpend: 178.17999267578125,
+  _status: 'ok',
+  _dateCreated: 1646259181915,
+  _lastUpdated: 1646259181915
+}
+
+```
+
+### Create Budget
+
+Creates a budget. You have to import the Budget Payload Model to create a new one.
+
+```javascript
+import { Budget } from "finerio-pfm-web";
+
+...
+const name = "Budget Test";
+const amount = 5000;
+const warningPercentage = 0.5;
+const categoryId = 15;
+const userId = 1115162;
+
+const newBudget = new Budget(
+  name,
+  amount,
+  warningPercentage,
+  categoryId,
+  userId
+);
+
+Budgets.create(newBudget)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Budget {
+  _id: 1858596,
+  _categoryId: 15,
+  _name: 'Budget Test',
+  _amount: 5000,
+  _warningPercentage: 0.5,
+  _spent: 0,
+  _leftToSpend: 5000,
+  _status: 'ok',
+  _dateCreated: 1647299628041,
+  _lastUpdated: 1647299628041
+}
+
+```
+
+### Update Budget
+
+Given a valid budget id updates a budget. You have to import the User Payload Model to update it.
+
+```javascript
+import { Budget } from "finerio-pfm-web";
+
+...
+
+const name = "Budget";
+const amount = 5000;
+const warningPercentage = 0.5;
+const categoryId = 16;
+
+const budget = new Budget(name, amount, warningPercentage [, categoryId]);
+const budgetId = 1858596;
+
+Budgets.update(budgetId, budget)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+categoryId is optional, set only if you want to change the budget's category.
+
+Output:
+
+```console
+Budget {
+  _id: 1858596,
+  _categoryId: 16,
+  _name: 'Budget',
+  _amount: 5000,
+  _warningPercentage: 0.5,
+  _spent: 0,
+  _leftToSpend: 5000,
+  _status: 'ok',
+  _dateCreated: 1647299628041,
+  _lastUpdated: 1647299628041
+}
+
+```
+
+### Delete Budget
+
+Given a valid budget id deletes budget.
+
+```javascript
+const budgetId = 1858596;
+Budgets.delete(budgetId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+204
+
+```
+
+If the budget was deleted code 204 will be returned.
 
 ### Insights

@@ -2,18 +2,18 @@ import { PlainObject } from "../types";
 
 export default class BudgetPayload {
   constructor(
-    private _categoryId: number | null,
     private _name: string,
     private _amount: number,
     private _warningPercentage: number,
-    private _userId?: number | null
+    private _categoryId?: number | null,
+    private _userId?: number | null,
   ) {}
 
-  public get categoryId(): number | null {
+  public get categoryId(): number | null | undefined {
     return this._categoryId;
   }
 
-  public set categoryId(categoryId: number | null) {
+  public set categoryId(categoryId: number | null | undefined) {
     this._categoryId = categoryId;
   }
 
