@@ -14,6 +14,11 @@ This SDK lets you connect to [Finerio PFM API](https://pfm-api-docs.finerioconne
     - [Update User](#update-user)
     - [Delete User](#delete-user)
   - [FinancialEntities](#financial-entities)
+    - [List Financial Entities](#list-financial-entities)
+    - [Get Financial Entity](#get-financial-entity)
+    - [Create Financial Entity](#create-financial-entity)
+    - [Update Financial Entity](#update-financial-entity)
+    - [Delete Financial Entity](#delete-financial-entity)
   - [Accounts](#accounts)
   - [Categories](#categories)
   - [Transactions](#transactions)
@@ -38,37 +43,32 @@ npm install finerio-pfm-web
 ```javascript
 import { FinerioConnectSDK } from "finerio-pfm-web";
 import {
-  ACCOUNT_TYPE,
   CATEGORY_TYPE,
   FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
-  BUDGET_TYPE,
-  INSIGHTS_TYPE,
-  USERS_TYPE,
 } from "finerio-pfm-web";
 
+//The constructor can receive an array of types or a single type, depending on which SDK instances you want to use. If constructor has no parameters all the SDK instances will be returned.
 const fcPfm = new FinerioConnectSDK([
-  ACCOUNT_TYPE,
   CATEGORY_TYPE,
   FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
-  BUDGET_TYPE,
-  INSIGHTS_TYPE,
-  USERS_TYPE,
 ]);
 
-const {
-  Accounts,
-  Categories,
-  FinancialEntities,
-  Transactions,
-  Budgets,
-  Insights,
-  Users,
-} = fcPfm.connect(API_KEY);
+//Call the connect method passing the api key as a parameter to obtain an object with the previously established instances.
+const { Categories, FinancialEntities, Transactions } = fcPfm.connect(API_KEY);
 ```
 
-If constructor has no parameters all the SDK instances will be returned otherwise only instances of parameters setted will be returned.
+The following constant types can be used:
+| Instance Types | Instance returned when you connect |
+| --------------------- | ---------------------------------- |
+| ACCOUNT_TYPE | `Accounts` |
+| CATEGORY_TYPE | `Categories` |
+| FINANCIAL_ENTITY_TYPE | `FinancialEntities` |
+| TRANSACTION_TYPE | `Transactions` |
+| BUDGET_TYPE | `Budgets` |
+| INSIGHTS_TYPE | `Insights` |
+| USERS_TYPE | `Users` |
 
 ## Usage
 
@@ -206,6 +206,147 @@ Output:
 If the user was deleted code 204 will be returned.
 
 ### Financial Entities
+
+Financial entities represents the financial institutions where your customers keep their money, or something else that helps you modelling the way you manage the accounts of your users.
+
+### List Financial Entities
+
+Fetches a list of financial entities per client, sorted by ID in descending order.
+
+```javascript
+FinancialEntities.list([cursor])
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+If a cursor is specified, the list starts with the item that has that ID.
+
+Output:
+
+```console
+[
+  FinancialEntity {
+    id: 1486880,
+    dateCreated: 1646262369752,
+    lastUpdated: 1646262804911,
+    name: "Testk",
+    code: "3"
+  },
+  FinancialEntity {
+    id: 1486877,
+    dateCreated: 1646259197099,
+    lastUpdated: 1646259197099,
+    name: "Kunde, Mueller and Brekke",
+    code: "UQAUPLY1"
+  }
+  ...
+]
+
+```
+
+### Get Financial Entity
+
+Given a valid financial entity ID, fetches the information of a financial entity.
+
+```javascript
+FinancialEntities.get(financialEntityId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+FinancialEntity {
+  id: 1486880,
+  dateCreated: 1646262369752,
+  lastUpdated: 1646262804911,
+  name: "Testk",
+  code: "3"
+}
+
+```
+
+### Create Financial Entity
+
+Creates an financial entity. Every client has its own financial entities. Every financial entity code is unique per client. You have to import the Financial Entity Payload Model to create a new one.
+
+```javascript
+import { FinancialEntity } from "finerio-pfm-web";
+
+...
+
+const financialEntity = new FinancialEntity(
+        "Test National Bank",
+        "TEST-NB"
+      );
+
+FinancialEntities.create(financialEntity)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+FinancialEntity {
+  id: 1486880,
+  dateCreated: 1646262369752,
+  lastUpdated: 1646262804911,
+  name: "Test National Bank",
+  code: "TEST-NB"
+}
+
+```
+
+### Update Financial Entity
+
+Given a valid financial entity id updates a financial entity. The new name should not be previously registered. You have to import the Financial Entity Payload Model to update it.
+
+```javascript
+import { FinancialEntity } from "finerio-pfm-web";
+
+...
+
+const financialEntity = new FinancialEntity("Test National Bank",
+        "TEST-NB-2");
+
+FinancialEntities.update(1486880, financialEntity)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+FinancialEntity {
+  id: 1486880,
+  dateCreated: 1646262369752,
+  lastUpdated: 1646262904911,
+  name: "Test National Bank 2",
+  code: "TEST-NB 2"
+}
+
+```
+
+### Delete Financial Entity
+
+Deletes a financial entity. All accounts related to this financial entity remain active.
+
+```javascript
+FinancialEntities.delete(1486880)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+204
+
+```
+
+If the user was deleted code 204 will be returned.
 
 ### Accounts
 

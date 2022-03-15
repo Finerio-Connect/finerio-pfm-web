@@ -35,10 +35,10 @@ export default class Transactions {
     return this.fcSdk.doGet(`${this.path}/${id}`, this.processResponse);
   }
 
-  update(id: number, updateObject?: Transaction): Promise<Transaction> {
+  update(id: number, updateObject?: TransactionPayload): Promise<Transaction> {
     return this.fcSdk.doPut(
       `${this.path}/${id}`,
-      updateObject ? updateObject.payload : {},
+      updateObject ? updateObject.plainObject : {},
       this.processResponse
     );
   }

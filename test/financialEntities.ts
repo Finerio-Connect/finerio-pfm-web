@@ -59,9 +59,11 @@ describe("FinancialEntities", () => {
       });
     });
     it("Should be Success", () => {
-      newFinancialEntity.name = "Cambio de banco";
-      newFinancialEntity.code = "WAKANDA-NB-124";
-      return FinancialEntities?.update(newFinancialEntity.id, newFinancialEntity).then((response) => {
+      let financialEntity = new FinancialEntity(
+        "Cambio de banco",
+        "WAKANDA-NB-124"
+      );
+      return FinancialEntities?.update(newFinancialEntity.id, financialEntity).then((response) => {
         expect(response).to.exist;
         expect(response.name).to.equal("Cambio de banco");
         expect(response.code).to.equal("WAKANDA-NB-124");
