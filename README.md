@@ -26,9 +26,22 @@ This SDK lets you connect to [Finerio PFM API](https://pfm-api-docs.finerioconne
     - [Update Account](#update-account)
     - [Delete Account](#delete-account)
   - [Categories](#categories)
+    - [List Categories](#list-categories)
+    - [List Categories and Subcategories](#list-categories-and-subcategories)
+    - [Get Category](#get-category)
+    - [Create Category](#create-category)
+    - [Update Category](#update-category)
+    - [Delete Category](#delete-category)
   - [Transactions](#transactions)
   - [Budgets](#budgets)
+    - [List Budgets](#list-budgets)
+    - [Get Budget](#get-budget)
+    - [Create Budget](#create-budget)
+    - [Update Budget](#update-budget)
+    - [Delete Budget](#delete-budget)
   - [Insights](#insights)
+    - [Resume](#resume)
+    - [Analysis](#analysis)
 
 ## Installation
 
@@ -95,14 +108,14 @@ Output:
 ```console
 [
   User {
-    _id: 1115160,
-    _name: 'Rossie18@gmail.com',
-    _dateCreated: 1645069610495
+    id: 1115160,
+    name: 'Rossie18@gmail.com',
+    dateCreated: 1645069610495
   },
   User {
-    _id: 1115155,
-    _name: 'Salvador.Nitzsche67@gmail.com',
-    _dateCreated: 1644967736923
+    id: 1115155,
+    name: 'Salvador.Nitzsche67@gmail.com',
+    dateCreated: 1644967736923
   },
   ...
 ]
@@ -124,9 +137,9 @@ Output:
 
 ```console
 User {
-  _id: 1115162,
-  _name: 'Henri47@hotmail.com',
-  _dateCreated: 1645206810630
+  id: 1115162,
+  name: 'Henri47@hotmail.com',
+  dateCreated: 1645206810630
 }
 
 ```
@@ -139,7 +152,6 @@ Creates a user. You have to import the User Payload Model to create a new one.
 import { User } from "finerio-pfm-web";
 
 ...
-
 const user = new User("test@finerioconnect.com");
 
 Users.create(user)
@@ -151,9 +163,9 @@ Output:
 
 ```console
 User {
-  _id: 2230329,
-  _name: 'test@finerioconnect.com',
-  _dateCreated: 1647297242399
+  id: 2230329,
+  name: 'test@finerioconnect.com',
+  dateCreated: 1647297242399
 }
 
 ```
@@ -179,9 +191,9 @@ Output:
 
 ```console
 User {
-  _id: 2230329,
-  _name: 'testupd@finerioconnect.com',
-  _dateCreated: 1647297242399
+  id: 2230329,
+  name: 'testupd@finerioconnect.com',
+  dateCreated: 1647297242399
 }
 
 ```
@@ -519,8 +531,523 @@ If the account was deleted code 204 will be returned.
 
 ### Categories
 
+Categories are the classification of transactions and budgets.
+
+### List Categories
+
+Fetches a list of categories, sorted by ID in ascending order. The API is able to fetch up to 100 categories.
+
+```javascript
+const userId = 1115162;
+Categories.list([userId])
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+If a cursor is specified, the list starts with the item that has that ID. If a user ID is specified, both system and user categories are fetched. If a user ID is not specified, only system categories are fetched.
+
+Output:
+
+```console
+[
+  Category {
+    id: 1,
+    name: 'Hogar',
+    color: '#A3CB38',
+    parentCategoryId: null,
+    userId: null,
+    dateCreated: null,
+    lastUpdated: null
+  },
+  Category {
+    id: 2,
+    name: 'Alimentos',
+    color: '#FECA46',
+    parentCategoryId: null,
+    userId: null,
+    dateCreated: null,
+    lastUpdated: null
+  },
+  ...
+]
+
+```
+
+### List Categories And Subcategories
+
+Fetches a list of categories, sorted by ID in ascending order grouped by parent category and subcategories. The API is able to fetch up to 100 categories.
+
+```javascript
+const userId = 1115162;
+Categories.listWithSubcategories([userId])
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+If a cursor is specified, the list starts with the item that has that ID. If a user ID is specified, both system and user categories are fetched. If a user ID is not specified, only system categories are fetched.
+
+Output:
+
+```console
+[
+  ParentCategory {
+    id: 1,
+    name: 'Hogar',
+    color: '#A3CB38',
+    parentCategoryId: null,
+    userId: null,
+    dateCreated: null,
+    lastUpdated: null,
+    subcategories: [
+      [Category], [Category],
+      [Category], [Category],
+      [Category], [Category],
+      [Category], [Category],
+      [Category]
+    ]
+  },
+  ParentCategory {
+    id: 2,
+    name: 'Alimentos',
+    color: '#FECA46',
+    parentCategoryId: null,
+    userId: null,
+    dateCreated: null,
+    lastUpdated: null,
+    subcategories: [ [Category], [Category], [Category] ]
+  },
+  ...
+]
+
+```
+
+### Get Category
+
+Given a valid category ID, fetches the information of a category.
+
+```javascript
+const categoryId = 27;
+Categories.get(userId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Category {
+  id: 27,
+  name: 'Otros Auto y Transporte',
+  color: '#99ECD8',
+  parentCategoryId: 5,
+  userId: null,
+  dateCreated: null,
+  lastUpdated: null
+}
+
+```
+
+### Create Category
+
+Creates a category. If a user ID is not specified, the category is considered as a system category. If a parent category ID is specified, the category is considered a subcategory. You have to import the Category Payload Model to update it.
+
+```javascript
+import { Category } from "finerio-pfm-web";
+
+...
+const name = "Streaming";
+const color = "#FF0000";
+const parentCategoryId = 1859616;
+const category = new Category(name, color, parentCategoryId, [userId]);
+
+Categories.create(category)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Category {
+  id: 1859620,
+  name: 'Streaming',
+  color: '#FF0000',
+  parentCategoryId: 1859616,
+  userId: null,
+  dateCreated: 1647380144534,
+  lastUpdated: 1647380144534
+}
+```
+
+### Update Category
+
+Given a valid category id updates a category. You have to import the Category Payload Model to update it.
+
+```javascript
+import { Category } from "finerio-pfm-web";
+
+...
+const name = "Streaming Test";
+const color = "#00FF00";
+const parentCategoryId = null;
+const category = new Category(name, color, parentCategoryId);
+
+Categories.create(category)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Category {
+  id: 1859621,
+  name: 'Streaming Test',
+  color: '#00FF00',
+  parentCategoryId: null,
+  userId: null,
+  dateCreated: 1647380312266,
+  lastUpdated: 1647380312266
+}
+
+```
+
+### Delete Category
+
+Given a valid category id deletes a category.
+
+```javascript
+const categoryId = 1859621;
+Categories.delete(categoryId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+204
+
+```
+
+If the category was deleted code 204 will be returned.
+
 ### Transactions
 
 ### Budgets
 
+A budget is the representation of your users' budget plan.
+
+### List Budgets
+
+Fetches a list of budgets per user, sorted by ID in descending order.
+
+```javascript
+const userId = 1115162;
+
+Budgets.list(userId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+If a cursor is specified, the list starts with the item that has that ID.
+
+Output:
+
+```console
+[
+  Budget {
+    id: 1486872,
+    categoryId: 3,
+    name: 'Streaming services',
+    amount: 1500,
+    warningPercentage: 0.6,
+    spent: 0,
+    leftToSpend: 1500,
+    status: 'ok',
+    dateCreated: 1646257102160,
+    lastUpdated: 1646257642253
+  },
+  Budget {
+    id: 1486874,
+    categoryId: 87,
+    name: 'Sports',
+    amount: 178.17999267578125,
+    warningPercentage: 0.7,
+    spent: 0,
+    leftToSpend: 178.17999267578125,
+    status: 'ok',
+    dateCreated: 1646259181915,
+    lastUpdated: 1646259181915
+  },
+  ...
+]
+
+```
+
+### Get Budget
+
+Given a valid budget ID, fetches the information of a budget.
+
+```javascript
+const budgetId = 1486874;
+Budgets.get(budgetId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Budget {
+  id: 1486874,
+  categoryId: 87,
+  name: 'Sports',
+  amount: 178.17999267578125,
+  warningPercentage: 0.7,
+  spent: 0,
+  leftToSpend: 178.17999267578125,
+  status: 'ok',
+  dateCreated: 1646259181915,
+  lastUpdated: 1646259181915
+}
+
+```
+
+### Create Budget
+
+Creates a budget. You have to import the Budget Payload Model to create a new one.
+
+```javascript
+import { Budget } from "finerio-pfm-web";
+
+...
+const name = "Budget Test";
+const amount = 5000;
+const warningPercentage = 0.5;
+const categoryId = 15;
+const userId = 1115162;
+
+const newBudget = new Budget(
+  name,
+  amount,
+  warningPercentage,
+  categoryId,
+  userId
+);
+
+Budgets.create(newBudget)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Budget {
+  id: 1858596,
+  categoryId: 15,
+  name: 'Budget Test',
+  amount: 5000,
+  warningPercentage: 0.5,
+  spent: 0,
+  leftToSpend: 5000,
+  status: 'ok',
+  dateCreated: 1647299628041,
+  lastUpdated: 1647299628041
+}
+
+```
+
+### Update Budget
+
+Given a valid budget id updates a budget. You have to import the User Payload Model to update it.
+
+```javascript
+import { Budget } from "finerio-pfm-web";
+
+...
+
+const name = "Budget";
+const amount = 5000;
+const warningPercentage = 0.5;
+const categoryId = 16;
+
+const budget = new Budget(name, amount, warningPercentage [, categoryId]);
+const budgetId = 1858596;
+
+Budgets.update(budgetId, budget)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+categoryId is optional, set only if you want to change the budget's category.
+
+Output:
+
+```console
+Budget {
+  id: 1858596,
+  categoryId: 16,
+  name: 'Budget',
+  amount: 5000,
+  warningPercentage: 0.5,
+  spent: 0,
+  leftToSpend: 5000,
+  status: 'ok',
+  dateCreated: 1647299628041,
+  lastUpdated: 1647299628041
+}
+
+```
+
+### Delete Budget
+
+Given a valid budget id deletes budget.
+
+```javascript
+const budgetId = 1858596;
+Budgets.delete(budgetId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+204
+
+```
+
+If the budget was deleted code 204 will be returned.
+
 ### Insights
+
+### Analysis
+
+Given a valid user ID, fetches an analysis of the financial information of a user.
+
+```javascript
+const userId = 1115162;
+Insights.analysis(userId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+[
+  Analysis {
+    date: 1646114400000,
+    categories: [
+      {
+        categoryId: 12,
+        amount: 400,
+        average: undefined,
+        quantity: undefined,
+        subcategories: [
+          {
+            categoryId: 82,
+            amount: 400,
+            average: 200,
+            quantity: 2,
+            transactionsByDate: [],
+            transactions: [
+              Transaction {
+                id: undefined,
+                accountId: undefined,
+                amount: 400,
+                charge: undefined,
+                date: undefined,
+                description: 'Test',
+                categoryId: undefined,
+                dateCreated: undefined,
+                lastUpdated: undefined,
+                average: 200,
+                quantity: 2
+              }
+            ]
+          }
+         ],
+        transactions: []
+      }
+    ]
+  }
+]
+
+```
+
+### Resume
+
+Given a valid user ID, fetches a resume of the financial information of a user. It contains expenses, incomes and balances.
+
+```javascript
+const userId = 1115162;
+Insights.resume(userId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Resume {
+  incomes: [
+    IncomeExpense {
+      date: 1643695200000,
+      categories: [
+        {
+          categoryId: 12,
+          amount: 200,
+          average: undefined,
+          quantity: undefined,
+          subcategories: [
+            {
+              categoryId: 82,
+              amount: 200,
+              average: undefined,
+              quantity: undefined,
+              transactionsByDate: [
+                {
+                  date: 1645596000000,
+                  transactions: [
+                    {
+                      id: 2230310,
+                      accountId: undefined,
+                      amount: 200,
+                      charge: false,
+                      date: 1645632564947,
+                      description: 'Test',
+                      categoryId: null,
+                      dateCreated: 1646258563935,
+                      lastUpdated: 1646258563935,
+                      average: undefined,
+                      quantity: undefined
+                    }
+                  ]
+                }
+              ],
+              transactions: []
+            }
+          ],
+          transactions: []
+        }
+      ],
+      amount: 200
+    }
+  ],
+  expenses: [
+    IncomeExpense {
+      date: 1646114400000,
+      categories: [Array],
+      amount: 400
+    }
+  ],
+  balances: [
+    Balance { incomes: 200, expenses: 0, date: 1643695200000 },
+    Balance { incomes: 0, expenses: 400, date: 1646114400000 }
+  ]
+}
+
+```
