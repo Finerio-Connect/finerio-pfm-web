@@ -1,4 +1,3 @@
-import { IFinancialEntity } from "../interfaces";
 import PlainObject from "../types/PlainObject";
 
 export default class FinancialEntityPayload {
