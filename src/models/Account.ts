@@ -82,16 +82,7 @@ export default class Account implements IAccount {
     return this._lastUpdated;
   }
 
-  public get payload(): PlainObject {
-    return {
-      nature: this._nature,
-      name: this._name,
-      number: this._number,
-      balance: this._balance,
-    };
-  }
-
-  public get toJSON(): PlainObject {
+  public get plainObject(): PlainObject {
     return {
       id: this._id,
       nature: this._nature,
