@@ -63,12 +63,23 @@ export default class Transactions {
     if (!listOptions) {
       return this.fcSdk.doGet(uri, this.processListResponseBuild(accountId));
     }
-    const { minAmount, maxAmount, dateFrom, dateTo, cursor } = listOptions;
-    const newUri = `${uri}${minAmount ? `&minAmount=${minAmount}` : ""}${
-      maxAmount ? `&maxAmount=${maxAmount}` : ""
-    }${dateFrom ? `&dateFrom=${dateFrom}` : ""}${
-      dateTo ? `&dateTo=${dateTo}` : ""
-    }${cursor ? `&cursor=${cursor}` : ""}`;
+    const {
+      categoryId,
+      description,
+      charge,
+      minAmount,
+      maxAmount,
+      dateFrom,
+      dateTo,
+      cursor,
+    } = listOptions;
+    const newUri = `${uri}${categoryId ? `&categoryId=${categoryId}` : ""}${
+      description ? `&description=${description}` : ""
+    }${charge ? `&charge=${charge}` : ""}${
+      minAmount ? `&minAmount=${minAmount}` : ""
+    }${maxAmount ? `&maxAmount=${maxAmount}` : ""}${
+      dateFrom ? `&dateFrom=${dateFrom}` : ""
+    }${dateTo ? `&dateTo=${dateTo}` : ""}${cursor ? `&cursor=${cursor}` : ""}`;
     return this.fcSdk.doGet(newUri, this.processListResponseBuild(accountId));
   }
 }

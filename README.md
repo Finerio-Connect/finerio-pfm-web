@@ -33,6 +33,11 @@ This SDK lets you connect to [Finerio PFM API](https://pfm-api-docs.finerioconne
     - [Update Category](#update-category)
     - [Delete Category](#delete-category)
   - [Transactions](#transactions)
+    - [List Transactions](#list-transactions)
+    - [Get Transaction](#get-transaction)
+    - [Create Transaction](#create-transaction)
+    - [Update Transaction](#update-transaction)
+    - [Delete Transaction](#delete-transaction)
   - [Budgets](#budgets)
     - [List Budgets](#list-budgets)
     - [Get Budget](#get-budget)
@@ -733,6 +738,184 @@ Output:
 If the category was deleted code 204 will be returned.
 
 ### Transactions
+A transaction is the representation of the financial movements within an account.
+
+### List Transactions
+
+Fetches a list of transactions per account, sorted by ID in descending order.
+
+```javascript
+Transactions.list(accountId, [listOptions])
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+If a listOptions object is specified, the list is filtered based on the added properties.
+
+The following properties can be used:
+| Name | Type | Example | Description |
+| --------------------- | ---------------------------------- | ---------------------------------- |---------------------------------- |
+| **categoryId** | *integer* | `categoryId=123` | The ID of the category. |
+| **description** | *string* | `description=UBER` | The description of the transaction. It can be partial. |
+| **charge** | *boolean* | `charge=true` | The type of the transaction (true = charge, false = deposit) |
+| **minAmount** | *number* | `minAmount=123.45` | The minimum amount of the transaction. |
+| **maxAmount** | *number* | `maxAmount=123.45` | The maximum amount of the transaction. |
+| **dateFrom** | *number* | `dateFrom=1587567125458` | The minimum date of the transaction, in UNIX format. |
+| **dateTo** | *number* | `dateTo=1587567125458` | The maxumum date of the transaction, in UNIX format. |
+| **cursor** | *integer* | `cursor=123` | The ID of the transaction where the list starts. |
+
+Output:
+
+```console
+[
+  Transaction {
+    id: 123,
+    date: 1587567125458,
+    charge: true,
+    description: "UBER EATS",
+    amount: 1234.56,
+    categoryId: 123,
+    dateCreated: 1587567125458,
+    lastUpdated: 1587567125458
+  },
+  Transaction {
+    id: 456,
+    date: 1587567145458,
+    charge: true,
+    description: "RAPPI",
+    amount: 1234.56,
+    categoryId: 123,
+    dateCreated: 1646259197099,
+    lastUpdated: 1646259197099,
+  }
+  ...
+]
+
+```
+
+### Get Transaction
+
+Given a valid transaction ID, fetches the information of a transaction.
+
+```javascript
+Transactions.get(transactionId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Transaction {
+  id: 123,
+  date: 1587567125458,
+  charge: true,
+  description: "UBER EATS",
+  amount: 1234.56,
+  categoryId: 123,
+  dateCreated: 1587567125458,
+  lastUpdated: 1587567125458
+}
+
+```
+
+### Create Transaction
+
+Creates a transaction. A previosuly created account is required. You have to import the Transaction Payload Model to create a new one.
+
+```javascript
+import { Transaction } from "finerio-pfm-web";
+
+...
+
+const transaction = new Transaction(
+        2230303,
+        new Date(),
+        true,
+        "Transaction Test",
+        1111,
+        79
+      );
+
+Transactions.create(transaction)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Transaction {
+  id: 789,
+  date: 1587567145458,
+  charge: true,
+  description: "Transaction Test",
+  amount: 1111,
+  categoryId: 79,
+  dateCreated: 1587567145458,
+  lastUpdated: 1587567145458
+}
+
+```
+
+### Update Transaction
+
+Given a valid transaction id updates a transaction. The new name should not be previously registered. You have to import the Transaction Payload Model to update it.
+
+```javascript
+import { Transaction } from "finerio-pfm-web";
+
+...
+
+const transaction = new Transaction(
+        2230303,
+        new Date(),
+        true,
+        "Edited Transaction Test",
+        1111,
+        79
+      );
+
+Transactions.update(transactionId, transaction)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+Transaction {
+  id: 789,
+  date: 1587567165458,
+  charge: true,
+  description: "Edited Transaction Test",
+  amount: 1111,
+  categoryId: 79,
+  dateCreated: 1587567145458,
+  lastUpdated: 1587567165458
+}
+
+
+```
+
+### Delete Transaction
+
+Deletes a transaction and all its information.
+
+```javascript
+Transactions.delete(transactionId)
+  .then((data) => console.log(data))
+  .catch((error) => console.log(error));
+```
+
+Output:
+
+```console
+204
+
+```
+
+If the transaction was deleted code 204 will be returned.
 
 ### Budgets
 
