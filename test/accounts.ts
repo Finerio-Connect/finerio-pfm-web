@@ -64,8 +64,15 @@ describe("Accounts", () => {
       });
     });
     it("Should be Success", () => {
-      newAccount.name = "Cambio";
-      return Accounts?.update(newAccount.id, newAccount).then((response) => {
+      let account = new Account(
+        userId,
+        743443,
+        "Mortgage",
+        "Cambio",
+        "1111 1111 1111 1111",
+        1000
+      );
+      return Accounts?.update(newAccount.id, account).then((response) => {
         expect(response).to.exist;
         expect(response.name).to.equal("Cambio");
       });
