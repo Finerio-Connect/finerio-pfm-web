@@ -10,8 +10,10 @@
     "clean": "tsc --build --clean",
     "test": "mocha -r ts-node/register test/*"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "open-banking"
+  ],
+  "author": "Finerio Connect",
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^4.3.0",
@@ -24,5 +26,13 @@
   },
   "dependencies": {
     "axios": "^0.26.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Finerio-Connect/finerio-pfm-web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Finerio-Connect/finerio-pfm-web/issues"
+  },
+  "homepage": "https://github.com/Finerio-Connect/finerio-pfm-web#readme"
 }
