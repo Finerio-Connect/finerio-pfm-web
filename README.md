@@ -74,7 +74,9 @@ const fcPfm = new FinerioConnectSDK([
 ]);
 
 //Call the connect method passing the api key as a parameter to obtain an object with the previously established instances.
-const { Categories, FinancialEntities, Transactions } = fcPfm.connect(API_KEY);
+const { Categories, FinancialEntities, Transactions } = fcPfm.connect(API_KEY, [
+  environment,
+]);
 ```
 
 The following constant types can be used:
@@ -87,6 +89,16 @@ The following constant types can be used:
 | BUDGET_TYPE | `Budgets` |
 | INSIGHTS_TYPE | `Insights` |
 | USERS_TYPE | `Users` |
+
+The default environment is SANDBOX, to change it set **environment** to `production`.
+
+```javascript
+const { Categories } = fcPfm.connect(API_KEY, "production");
+```
+
+---
+
+**Production environment is not available at this version**
 
 ## Usage
 
@@ -738,6 +750,7 @@ Output:
 If the category was deleted code 204 will be returned.
 
 ### Transactions
+
 A transaction is the representation of the financial movements within an account.
 
 ### List Transactions
@@ -755,14 +768,14 @@ If a listOptions object is specified, the list is filtered based on the added pr
 The following properties can be used:
 | Name | Type | Example | Description |
 | --------------------- | ---------------------------------- | ---------------------------------- |---------------------------------- |
-| **categoryId** | *integer* | `categoryId=123` | The ID of the category. |
-| **description** | *string* | `description=UBER` | The description of the transaction. It can be partial. |
-| **charge** | *boolean* | `charge=true` | The type of the transaction (true = charge, false = deposit) |
-| **minAmount** | *number* | `minAmount=123.45` | The minimum amount of the transaction. |
-| **maxAmount** | *number* | `maxAmount=123.45` | The maximum amount of the transaction. |
-| **dateFrom** | *number* | `dateFrom=1587567125458` | The minimum date of the transaction, in UNIX format. |
-| **dateTo** | *number* | `dateTo=1587567125458` | The maxumum date of the transaction, in UNIX format. |
-| **cursor** | *integer* | `cursor=123` | The ID of the transaction where the list starts. |
+| **categoryId** | _integer_ | `categoryId=123` | The ID of the category. |
+| **description** | _string_ | `description=UBER` | The description of the transaction. It can be partial. |
+| **charge** | _boolean_ | `charge=true` | The type of the transaction (true = charge, false = deposit) |
+| **minAmount** | _number_ | `minAmount=123.45` | The minimum amount of the transaction. |
+| **maxAmount** | _number_ | `maxAmount=123.45` | The maximum amount of the transaction. |
+| **dateFrom** | _number_ | `dateFrom=1587567125458` | The minimum date of the transaction, in UNIX format. |
+| **dateTo** | _number_ | `dateTo=1587567125458` | The maxumum date of the transaction, in UNIX format. |
+| **cursor** | _integer_ | `cursor=123` | The ID of the transaction where the list starts. |
 
 Output:
 
