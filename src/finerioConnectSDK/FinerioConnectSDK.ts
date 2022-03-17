@@ -2,7 +2,8 @@ import axios, { AxiosError, AxiosRequestHeaders } from "axios";
 import Error from "../error";
 import {
   ACCOUNT_TYPE,
-  SERVER_URL,
+  SERVER_URL_SANDBOX,
+  SERVER_URL_PRODUCTION,
   CATEGORY_TYPE,
   FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
@@ -48,11 +49,14 @@ export default class FinerioConnectSDK {
   constructor(includes?: string[] | string) {
     this._includedClasses = getIncludedClasses(includes);
     this._apiKey = "";
-    this._serverUrl = SERVER_URL;
+    this._serverUrl = SERVER_URL_SANDBOX;
     this._headers = {};
   }
 
-  public connect(apiKey: string): IClassesDictionary {
+  public connect(apiKey: string, environment?: string): IClassesDictionary {
+    environment && environment === "production"
+      ? (this._serverUrl = SERVER_URL_PRODUCTION)
+      : (this._serverUrl = SERVER_URL_SANDBOX);
     this._apiKey = apiKey;
     this._headers = { ...this._headers, "Api-Key": apiKey };
     if (this._includedClasses.length) {
