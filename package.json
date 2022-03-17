@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "build": "tsc --build",
-    "build:browser": "tsc --build && browserify -r ./dist/index.js:FinerioPfmSDK -o ./dist.browser/bundle.js",
+    "build:browser": "tsc --build && browserify -r ./dist/index.js:FinerioPfmSDK -o ./dist_browser/bundle.js",
     "clean": "tsc --build --clean",
     "test": "mocha -r ts-node/register test/*"
   },
