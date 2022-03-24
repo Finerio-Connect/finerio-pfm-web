@@ -1,6 +1,3 @@
-export const SERVER_URL_PRODUCTION =
-  "https://pfm-api-sandbox.finerioconnect.com";
-export const SERVER_URL_SANDBOX = "https://pfm-api-sandbox.finerioconnect.com";
 export const ACCOUNT_TYPE = "PFM_SDK/ACCOUNT_TYPE";
 export const CATEGORY_TYPE = "PFM_SDK/CATEGORY_TYPE";
 export const FINANCIAL_ENTITY_TYPE = "PFM_SDK/FINANCIAL_ENTITY_TYPE";
