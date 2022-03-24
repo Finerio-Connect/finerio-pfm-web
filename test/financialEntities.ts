@@ -7,7 +7,10 @@ import {
 import { FinancialEntity as FinancialEntityModel } from "../src/models";
 
 describe("FinancialEntities", () => {
-  const fcs = new FinerioConnectSDK(FINANCIAL_ENTITY_TYPE);
+  const fcs = new FinerioConnectSDK({
+    includes: FINANCIAL_ENTITY_TYPE,
+    sandbox: false,
+  });
   const { FinancialEntities } = fcs.connect(
     "905e0065-a797-4139-81ae-66d671a284b7"
   );
@@ -63,7 +66,10 @@ describe("FinancialEntities", () => {
         "Cambio de banco",
         "WAKANDA-NB-124"
       );
-      return FinancialEntities?.update(newFinancialEntity.id, financialEntity).then((response) => {
+      return FinancialEntities?.update(
+        newFinancialEntity.id,
+        financialEntity
+      ).then((response) => {
         expect(response).to.exist;
         expect(response.name).to.equal("Cambio de banco");
         expect(response.code).to.equal("WAKANDA-NB-124");
