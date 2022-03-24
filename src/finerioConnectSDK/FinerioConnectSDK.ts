@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosRequestHeaders } from "axios";
+import dotenv from "dotenv";
+
 import Error from "../error";
 import {
   ACCOUNT_TYPE,
-  SERVER_URL_SANDBOX,
-  SERVER_URL_PRODUCTION,
   CATEGORY_TYPE,
   FINANCIAL_ENTITY_TYPE,
   TRANSACTION_TYPE,
@@ -30,33 +30,43 @@ interface IClassesDictionary {
   Users?: Users;
 }
 
-const getIncludedClasses = (includes?: string[] | string): string[] => {
-  if (includes) {
-    if (Array.isArray(includes)) {
-      return includes;
-    }
-    if (typeof includes === "string") {
-      return [includes];
-    }
-  }
-  return [];
-};
+interface IConnectParams {
+  includes?: string | string[];
+  sandbox?: boolean;
+}
+
 export default class FinerioConnectSDK {
   private _includedClasses: string[];
   private _apiKey: string;
   private _serverUrl: string;
+  private _sandbox: boolean;
   private _headers: AxiosRequestHeaders;
-  constructor(includes?: string[] | string) {
-    this._includedClasses = getIncludedClasses(includes);
+  constructor(arg?: IConnectParams | string[] | string) {
+    this._includedClasses = [];
+    this._sandbox = false;
     this._apiKey = "";
-    this._serverUrl = SERVER_URL_SANDBOX;
+    if (arg) {
+      if (Array.isArray(arg) || typeof arg === "string") {
+        this._includedClasses = this.getIncludedClasses(arg);
+      } else if (typeof arg === "object") {
+        if (arg.includes) {
+          this._includedClasses = this.getIncludedClasses(arg.includes);
+        }
+        if (arg.sandbox) {
+          this._sandbox = arg.sandbox;
+        }
+      }
+    }
+    if (this._sandbox) {
+      dotenv.config({ path: ".env.sandbox" });
+    } else {
+      dotenv.config({ path: ".env.production" });
+    }
+    this._serverUrl = process.env.SERVER_URL!;
     this._headers = {};
   }
 
-  public connect(apiKey: string, environment?: string): IClassesDictionary {
-    environment && environment === "production"
-      ? (this._serverUrl = SERVER_URL_PRODUCTION)
-      : (this._serverUrl = SERVER_URL_SANDBOX);
+  public connect(apiKey: string): IClassesDictionary {
     this._apiKey = apiKey;
     this._headers = { ...this._headers, "Api-Key": apiKey };
     if (this._includedClasses.length) {
@@ -91,6 +101,20 @@ export default class FinerioConnectSDK {
       Users: new Users(this),
     };
   }
+
+  private getIncludedClasses = (
+    arg?: string[] | string | IConnectParams
+  ): string[] => {
+    if (arg) {
+      if (Array.isArray(arg)) {
+        return arg;
+      }
+      if (typeof arg === "string") {
+        return [arg];
+      }
+    }
+    return [];
+  };
 
   get apiKey(): string {
     return this._apiKey;
