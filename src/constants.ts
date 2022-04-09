@@ -5,3 +5,5 @@ export const TRANSACTION_TYPE = "PFM_SDK/TRANSACTION_TYPE";
 export const BUDGET_TYPE = "PFM_SDK/BUDGET_TYPE";
 export const INSIGHTS_TYPE = "PFM_SDK/INSIGHTS_TYPE";
 export const USERS_TYPE = "PFM_SDK/USERS_TYPE";
+export const SERVER_URL_PROD = "https://pfm-api-production.finerioconnect.com";
+export const SERVER_URL_SAND = "https://pfm-api-sandbox.finerioconnect.com";
