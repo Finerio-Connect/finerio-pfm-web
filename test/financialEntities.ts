@@ -9,7 +9,7 @@ import { FinancialEntity as FinancialEntityModel } from "../src/models";
 describe("FinancialEntities", () => {
   const fcs = new FinerioConnectSDK({
     includes: FINANCIAL_ENTITY_TYPE,
-    sandbox: false,
+    sandbox: true,
   });
   const { FinancialEntities } = fcs.connect(
     "905e0065-a797-4139-81ae-66d671a284b7"

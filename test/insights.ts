@@ -4,7 +4,7 @@ import { INSIGHTS_TYPE, FinerioConnectSDK } from "../src/index";
 describe("Insights", () => {
   const fcs = new FinerioConnectSDK({
     includes: INSIGHTS_TYPE,
-    sandbox: false,
+    sandbox: true,
   });
   const { Insights } = fcs.connect("905e0065-a797-4139-81ae-66d671a284b7");
   const userId = 1115162;

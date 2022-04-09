@@ -5,7 +5,7 @@ import { Transaction as TransactionModel } from "../src/models";
 describe("Transactions", () => {
   const fcs = new FinerioConnectSDK({
     includes: TRANSACTION_TYPE,
-    sandbox: false,
+    sandbox: true,
   });
   const { Transactions } = fcs.connect("905e0065-a797-4139-81ae-66d671a284b7");
   it("Should be Exist", () => {
