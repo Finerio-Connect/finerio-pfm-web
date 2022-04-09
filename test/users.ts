@@ -5,7 +5,7 @@ import { User as UserModel } from "../src/models";
 describe("Users", () => {
   const fcs = new FinerioConnectSDK({
     includes: USERS_TYPE,
-    sandbox: false,
+    sandbox: true,
   });
   const { Users } = fcs.connect("905e0065-a797-4139-81ae-66d671a284b7");
   it("Should be Exist", () => {
