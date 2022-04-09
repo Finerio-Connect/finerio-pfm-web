@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosRequestHeaders } from "axios";
-import dotenv from "dotenv";
 
 import Error from "../error";
 import {
@@ -10,6 +9,8 @@ import {
   BUDGET_TYPE,
   INSIGHTS_TYPE,
   USERS_TYPE,
+  SERVER_URL_SAND,
+  SERVER_URL_PROD,
 } from "../constants";
 import { IErrorResponse } from "../interfaces";
 import Categories from "../categories/Categories";
@@ -57,12 +58,8 @@ export default class FinerioConnectSDK {
         }
       }
     }
-    if (this._sandbox) {
-      dotenv.config({ path: ".env.sandbox" });
-    } else {
-      dotenv.config({ path: ".env.production" });
-    }
-    this._serverUrl = process.env.SERVER_URL!;
+    if (this._sandbox) this._serverUrl = SERVER_URL_SAND;
+    else this._serverUrl = SERVER_URL_PROD;
     this._headers = {};
   }
 
