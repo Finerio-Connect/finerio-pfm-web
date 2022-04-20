@@ -36,7 +36,8 @@ describe("Accounts", () => {
         "Mortgage",
         "Cuenta prueba",
         "1111 1111 1111 1111",
-        1000
+        1000,
+        true
       );
       return Accounts?.create(account).then((response) => {
         newAccount = response;
