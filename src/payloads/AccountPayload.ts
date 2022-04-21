@@ -7,7 +7,8 @@ export default class AccountPayload {
     private _nature: string,
     private _name: string,
     private _number: string,
-    private _balance: number
+    private _balance: number,
+    private _chargeable?: boolean
   ) {}
 
   public get userId(): number {
@@ -58,6 +59,14 @@ export default class AccountPayload {
     this._balance = value;
   }
 
+  public get chargeable(): boolean | undefined {
+    return this._chargeable;
+  }
+
+  public set chargeable(value: boolean | undefined) {
+    this._chargeable = value;
+  }
+
   public get plainObject(): PlainObject {
     return {
       userId: this._userId,
@@ -66,6 +75,7 @@ export default class AccountPayload {
       name: this._name,
       number: this._number,
       balance: this._balance,
+      chargeable: this._chargeable,
     };
   }
 }

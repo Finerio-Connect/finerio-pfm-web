@@ -32,7 +32,7 @@ describe("Transactions", () => {
     it("Should be Success", () => {
       let transaction = new Transaction(
         accountId,
-        new Date(),
+        new Date().getTime() / 1000,
         true,
         "Mocha Test",
         1111,
@@ -69,7 +69,7 @@ describe("Transactions", () => {
     it("Should be Success", () => {
       let transaction = new Transaction(
         accountId,
-        new Date(),
+        new Date().getTime() / 1000,
         false,
         "Mocha Test",
         1111,

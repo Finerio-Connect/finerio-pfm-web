@@ -5,15 +5,9 @@ export default class FinancialEntity implements IFinancialEntity {
   private _id: number;
   private _name: string;
   private _code: string;
-  private _dateCreated: Date | null;
-  private _lastUpdated: Date | null;
-  constructor({
-    id,
-    name,
-    code,
-    dateCreated,
-    lastUpdated,
-  }: IFinancialEntity) {
+  private _dateCreated: number | Date | null;
+  private _lastUpdated: number | Date | null;
+  constructor({ id, name, code, dateCreated, lastUpdated }: IFinancialEntity) {
     this._id = id;
     this._name = name;
     this._code = code;
@@ -41,11 +35,11 @@ export default class FinancialEntity implements IFinancialEntity {
     this._code = value;
   }
 
-  public get dateCreated(): Date | null {
+  public get dateCreated(): number | Date | null {
     return this._dateCreated;
   }
 
-  public get lastUpdated(): Date | null {
+  public get lastUpdated(): number | Date | null {
     return this._lastUpdated;
   }
 
@@ -54,8 +48,8 @@ export default class FinancialEntity implements IFinancialEntity {
       id: this._id,
       name: this._name,
       code: this._code,
-      dateCreated: this._dateCreated && this._dateCreated.getTime() / 1000,
-      lastUpdated: this.lastUpdated && this.lastUpdated.getTime() / 1000,
+      dateCreated: this._dateCreated && (this._dateCreated as number),
+      lastUpdated: this.lastUpdated && (this.lastUpdated as number),
     };
   }
 }
